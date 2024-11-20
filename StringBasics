@@ -30,4 +30,134 @@ Student s = new Student();
 System.out.println(s);
 System.out.println(s.toString());
 
-![image](https://github.com/user-attachments/assets/c864bb3c-5551-4d80-963e-eda37b958040)
+class Student {
+String name;
+int rollno;
+Student(String name, int rollno) {
+this.name = name;
+this.rollno = rollno;
+}
+public static void main(String arg[]) {
+Student s1 = new Student ("Durga", 101);
+Student s2 = new Student ("Ravi", 102);
+System.out.println(s1);
+System.out.println(s2);
+System.out.println(s1.toString());
+}
+}
+
+output:-
+Student@1cb25f1
+Student@2808b3
+Student@1cb25f1
+
+Here in this example the Object class toString() method will be executed which is implemented as below
+public String toString() {
+return getClass().getName() + “@” + Integer.toHexString(hashCode());
+}
+i.e. ClassName@Hexa_Decimal_String_of_hashcode
+
+To Provide Our Own String Representation we have to Override toString().
+ For Example whenever we are trying to Print Student Reference to Print his Name and RollNo we can Override toString() as follows.
+
+public String toString() {
+return name+"...."+rollno;
+return name;
+return "This is A Student with the Name: " +name+ " and rollno: "+rollno;
+}
+
+
+Note - In All Wrapper Classes, in All Collection Classes, in StringBuffer, StringBuilder toString() is Overridden for Meaningful String Representation.
+ It is Highly Recommended to Override toString() in our Classes Also.
+
+import java.util.*;
+class Test {
+public String toString() {
+return "Test";
+}
+public static void main(String[] args) {
+String s = new String("Durga");
+Integer i = new Integer(10);
+ArrayList l = new ArrayList();
+l.add("A");
+l.add("B");
+HashMap m = new HashMap();
+m.put("A", 101);
+Test t = new Test();
+System.out.println(s); //Durga
+System.out.println(i); //10
+System.out.println(l); //[A, B]
+System.out.println(m); //{A=101}
+System.out.println(t); //Test
+
+}
+}
+
+
+The hashCode():
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
