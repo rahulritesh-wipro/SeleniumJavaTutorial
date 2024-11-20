@@ -1,0 +1,33 @@
+Object Class 
+For writing any java program whether it is simple or complex, the most commonly used classes and Interfaces are defined in a separate package called java. Lang package. There is no need to import this package explicitly because by default it is available to every java program. 
+
+Directly OR Indirectly every Class in a Java is the Child Class of the Object Class, hence as per the inheritance rule Object Class Methods are by Default Available to Every Java Class.
+
+Object class is also known as Root for all the java classes.
+
+If our Class is not  extending any Other Class then Only it is the Direct Child Class of Object. If our Class is  extending any Other Class then it is Indirect Child Class of Object i.e. multilevel inheritance. Here multiple inheritance with classes is not possible.
+
+
+Methods:
+1) public String toString()
+2) public int hashCode()
+3) public boolean equals(Object obj)
+4) protected Object clone() throws CloneNotSupportedException
+5) protected void finalize() throws Throwable
+6) public final Class getClass()
+7) public final void wait() throws InterruptedException
+8) public final void wait(long ms) throws InterruptedException
+9) public final void wait(long ms, int ns) throws InterruptedException
+10) public final void notify()
+11) public final void notifyAll()
+
+
+The toString():
+ We can Use toString() to get String Representation of an Object.
+ Whenever we are trying to Print any Object Reference Internally toString() will be Called.
+
+Student s = new Student();
+System.out.println(s);
+System.out.println(s.toString());
+
+![image](https://github.com/user-attachments/assets/c864bb3c-5551-4d80-963e-eda37b958040)
