@@ -95,23 +95,179 @@ System.out.println(t); //Test
 
 
 The hashCode():
+For Every Object JVM will generate a Unique Number which is called Hash Code.
+JVM uses Hash Code while Saving Objects into Hashing related Data Structures Like HashSet, Hashtable, HashMap Etc.
+The main advantage of saving Objects based on their Hash Code is that the Search Operation will very become Easy.
+Hashing is the most powerful search algorithm
+If we are Not Overriding hashCode() then Object Class hashCode() will be executed. Which generates hashCode based on Address of an Object. 
+It doesn’t Mean Hash Code Represents Address of the Object (It is Impossible to find Address of an Object in Java).
+Based on our Requirement we can Override hashCode() then it is No Longer related to Address.
+
+Overriding hashCode() is Said to be Proper Way if and Only if for Every Object we have to Generate a Unique Number as hashCode.
+ It is Improper Way of Overriding hashCode() because for all Objects we are generating Same Number as Hash Code.
+ It is Proper Way of Overriding hashCode() because we are generating a Unique Number as Hash Code.
+
+Improper Way
+class Student {
+public int hashCode() {
+return 100;
+}
+}
+
+Proper Way
+class Student {
+public int hashCode() {
+return rollno;
+}
+}
+
+toString() Vs hashCode() - 
+
+To Do###################
+
+The equals() method
+
+It checks the equality of two objects
+If our Class doesn’t contain equals() then Object Class equals() will be executed. Which is meant for Reference Comparison (Address Comparison) i.e. r1.equals(r2); Returns true if and only if both r1 and r2 pointing to the Same Object.
 
 
+class Student {
+String name;
+int rollno;
+Student(String name, int rollno) {
+this.name = name;
+this.rollno = rollno;
+}
+public static void main(String[] args) {
+Student s1 = new Student("Durga", 101);
+Student s2 = new Student("Ravi", 102);
+Student s3 = new Student("Durga", 101);
+Student s4 = s1;
+System.out.println(s1.equals(s2)); //false
+System.out.println(s1.equals(s3)); //false
+System.out.println(s1.equals(s4)); //true
+}
+}
 
 
+ In the Above Example Object Class equals() got executed which is meant for Reference Comparison.
+ Based on our Requirement we can Override equals() in our Class for Content Comparison.
 
 
+While Overriding equals() we have to Consider the following things:-
+
+ What is the Meaning of Content Comparison. 
+For Example Whether we have to Check only Names OR only rollnos OR Both.
+
+ If we Pass different Type of Objects our equals() should Return false but not java.lang.ClassCastException i.e Whether to Handle ClassCastException to Return false.
+
+ If we Pass null Argument our equals() should Return false but not java.lang.NullPointerException i.e. we have to Handle NullPointerException to Return false.
+
+The following is the Valid Way of Overriding equals() for Content Comparison in Student Class.
+ If 2 Students having the Same Name and Same rollno our equals() should Return true.
+
+class Student {
+String name;
+int rollno;
+Student(String name, int rollno) {
+this.name = name;
+this.rollno = rollno;
+}
+public boolean equals(Object obj) {
+try {
+String name1 = this.name;
+int rollno1 = this.rollno;
+Student s2 = (Student)obj;
+String name2 = s2.name;
+int rollno2 = s2.rollno;
+if(name1.equals(name2) && rollno1 == rollno2) { return true; }
+else { return false; }
+}
+catch (ClassCastException c) { return false; }
+catch (NullPointerException e) { return false; }
+}
+public static void main(String arg[]) {
+Student s1 = new Student ("Durga", 101);
+Student s2 = new Student ("Ravi", 102);
+Student s3 = new Student ("Durga", 101);
+Student s4 = s1;
+System.out.println(s1.equals(s2)); //false
+System.out.println(s1.equals(s3)); //true
+System.out.println(s1.equals(s4)); //true
+System.out.println(s1.equals("Durga")); //false
+System.out.println(s1.equals(null)); //false
+}
+}
+
+Simplified Version of equals()
+public boolean equals(Object obj) {
+try {
+Student s = (Student)obj;
+if(name.equals(s.name) && rollno == s.rollno) {
+return true;
+}
+else {
+return false;
+}
+}
+catch (ClassCastException c) { return false; }
+catch (NullPointerException e) { return false; }
+}
 
 
+More Simplified Version of equals()
+public boolean equals(Object obj) {
+if (obj instanceof Student) {
+Student s = (Student)obj;
+if(name.equals(name) && rollno == s.rollno) {
+return true;
+}
+else { return false; }
+}
+return false;
+}
+
+Note: To Make Our equals() More Efficient we have to Take the following Code at the beginning of equals().
+if (obj == this)
+return true;
+i.e if 2 References pointing to the Same Object then our equals() should Return true without performing any Comaprision.
+Eg: String s1 = new String(“Durga”);
+String s2 = new String(“Durga”);
+StringBuffer sb1 = new StringBuffer(“Durga”);
+StringBuffer sb2 = new StringBuffer(“Durga”);
+System.out.println(s1.equals(s2)); //true
+System.out.println(sb1.equals(sb2)); //false
+System.out.println(s1.equals(sb1)); //false
+
+Note - The String Class equals() is Overridden for Content Comparison but in StringBuffer Class equals() is not Overridden for Content Comparison Hence Object Class equals() will be executed which is meant for Reference Comparison.
+
+In All Wrapper Classes, in All Collection Classes, in String Class equals() is Overridden for Content Comparison. Hence it is Highly Recommended to Override equals() in our Class Also.
+
+Relationship between ‘==’ Operator and .equals()
+ If r1 == r2 Return true then r1.equals(r2) is always true i.e if 2 Objects are Equal by == Operator then these Objects are always Equal by .equals() also.
+ If r1 == r2 Returns false then r1.equals(r2) then we can’t conclude anything about equals(). It may Returns true OR false.
+ If r1.equals(r2) is true then we can’t conclude anything about == Operator. It may Returns true OR false.
+ If r1.equals(r2) is false then r1 == r2 is always false.
+
+Difference between == Operator and .equals()
+
+                        == Operator                                                                               .equals()    
+It is an Operator applicable for Primitives and Object References.                        It is a Method applicable only for Object References.
+In the Case of Object References == Operator always meant for Reference Comparison.       By Default equals() Present in Object Class also meant for Reference Comparison.
+We can’t Override == Operator for Content Comparison.                                     We can Override equals() for Content Comparison.
+To use == Operator Compulsory there should be Some Relation between Argument Types        If there is No Relation between Argument Type we won’t get any CE/ RE. equals() Simply Returns false.                                                                                    Otherwise we will get CE: incompatible types.
+
+For Any Object References r, r == null Returns false.                                     For Any Object References r, r.equals(null) Returns false.
+
+What is the Main Difference between == Operator and .equals()?
+In General we can use .equals() for Content Comparison whereas == Operator for Reference Comparison.
+String s1 = new String(“Ravi”);
+String s2 = new String(“Ravi”);
+System.out.println(s1.equals(s2)); //true
+System.out.println(s1 == s2); //false
 
 
-
-
-
-
-
-
-
+Contract between .equals() and hashCode()
 
 
 
