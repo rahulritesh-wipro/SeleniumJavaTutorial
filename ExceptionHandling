@@ -1,0 +1,390 @@
+Exception Handling Concepts
+
+What is an Exception
+An Exception is an event, which occurs during the execution of a program, that disrupts the normal flow of the program's instructions 
+Any issue which makes your test case stop in between the execution is an Exception.
+
+Difference between Error and Exception
+An Error "indicates serious problems that a reasonable application should not try to catch." i.e. we must fix the errors
+An Exception "indicates conditions that a reasonable application might want to catch."
+
+In programming, both errors and exceptions refer to issues that arise during the execution of a program, but they have different meanings and implications. Here's a breakdown of the differences between the two:
+Error:
+Definition: An error is a serious problem that a reasonable application should not try to catch. It typically indicates a flaw in the program or the environment in which it runs.
+Nature: Errors are usually related to system-level issues, such as memory leaks, resource exhaustion, or other critical failures that cannot be anticipated or recovered from.
+
+
+Examples: Common examples of errors include: ----------------
+Out of memory errors
+Stack overflow errors
+Linkage errors
+
+Handling: 
+Errors are generally not meant to be handled by the application. When an error occurs, the program may terminate or crash.
+
+Type: 
+In many programming languages, errors are often represented as subclasses of a general Error class.
+
+Exception: -------------------
+Definition: 
+An exception is an event that occurs during the execution of a program that disrupts the normal flow of instructions. 
+Exceptions can often be anticipated and handled gracefully.
+Nature: Exceptions are typically related to application-level issues, such as invalid user input, file not found errors, or network timeouts.
+
+Examples: Common examples of exceptions include:
+Null pointer exceptions
+Index out of bounds exceptions
+IOException (for file handling)
+
+Handling: 
+Exceptions can be caught and handled using try-catch blocks. 
+This allows the program to recover from the exception and continue executing.
+
+Type: In many programming languages, exceptions are represented as subclasses of a general Exception class,
+and they can be categorized into checked and unchecked exceptions.
+
+Summary:
+Errors are usually severe issues that indicate problems with the runtime environment or the program itself and are not meant to be handled.
+Exceptions are conditions that can be anticipated and handled by the program to maintain normal execution flow.
+Understanding the distinction between errors and exceptions is crucial for effective error handling and debugging in software development.
+
+
+
+##################################################################################################################################################################################
+
+The term "reasonable application" in the context of errors and exceptions refers to a software application that is designed to operate within expected parameters and handle typical operational scenarios. Here’s a more detailed explanation:
+
+Characteristics of a Reasonable Application:
+Robustness: A reasonable application is built to handle various inputs and conditions gracefully. It anticipates potential issues (like user errors or resource unavailability) and includes mechanisms to manage them.
+
+Error Handling: Such applications implement proper error handling for exceptions. This means they use try-catch blocks or similar constructs to catch exceptions and take appropriate actions, such as logging the error, notifying the user, or attempting recovery.
+
+User -Centric Design: A reasonable application focuses on user experience, ensuring that it provides meaningful feedback when something goes wrong. Instead of crashing, it might display an error message or guide the user on how to correct their input.
+
+Testing and Validation: Reasonable applications undergo thorough testing to identify and mitigate potential issues. This includes unit tests, integration tests, and user acceptance tests to ensure that the application behaves as expected under various conditions.
+
+Graceful Degradation: In cases where certain features fail, a reasonable application may still function in a limited capacity rather than failing completely. For example, if a network resource is unavailable, the application might allow the user to work offline.
+
+Why Errors Are Not Handled:
+When we say that a reasonable application should not try to catch errors, we mean that errors typically indicate severe problems that are outside the control of the application. For example:
+
+Out of Memory Errors: If the application runs out of memory, it is often a sign that there is a fundamental issue with the way resources are managed, either in the application or in the environment. Attempting to catch such errors might not be meaningful because the application may not be in a stable state afterward.
+
+Stack Overflow Errors: These indicate a serious flaw, often due to infinite recursion or excessive resource consumption, and catching them would not resolve the underlying issue.
+
+In summary, a "reasonable application" is one that is designed to handle typical exceptions and maintain stability while providing a good user experience, but it recognizes that certain critical errors are beyond its capability to manage effectively.
+
+
+##################################################################################################################################################################################
+
+
+
+
+Whenever an error occurs while executing a statement, it creates an exception object and then the normal flow of the program halts and it tries to find someone that can handle the raised exception. 
+
+The exception object contains a lot of debugging information such as method hierarchy, line number where the exception occurred, type of exception, etc. 
+
+When the exception occurs in a method, the process of creating the exception object and handing it over to runtime environment is called *“throwing the exception”.
+
+Exception handling refers to the anticipation, detection, and resolution of programming application, and communications errors. It is the block of code that processes the exception object and helps us by giving us a chance to act on it.
+
+Why Exception Handling is Important
+Think of a situation where you have got an exception and you want to print some custom message in your  logs, so that it can be understandable by the whole team.
+
+There can be some situations where you want to just eat up the exception and want your test to carry on with rest of the execution.
+
+In case you want to perform some series of steps on occurring of an certain exception for e.g. if you got an exception because a product is out of stock, that product is no longer displayed on the page and you want you to go with another product available on the page.
+
+In case you want to handle some certain kind of exception in Selenium like ElementNotSelectableException, ElementNotVisibleException, NoSuchElementException etc. exceptions.
+
+Different Exceptions in Selenium -----------------------------------------------------------------------------
+There is a complete list of Exceptions mentioned on the Selenium Doc which you may or may not encounter in course of your  testing.
+
+Most common Exceptions: ------------
+
+1) NoSuchElementException : FindBy method can’t find the element.
+
+2) StaleElementReferenceException : This tells that element is no longer appearing on the DOM page.
+
+3) TimeoutException: This tells that the execution is failed because the command did not complete in enough time.
+
+4) ElementNotVisibleException: Thrown to indicate that although an element is present on the DOM, it is not visible, and so is not able to be interacted with
+
+5) ElementNotSelectableException: Thrown to indicate that may be the element is disabled, and so is not able to select.
+
+
+How to Handle Exception--------------------------------------------------------------
+Try/Catch: A method catches an exception using a combination of the try and catch keywords.
+Try is the start of the block and Catch is at the end of try block to handle the exceptions. 
+A try/catch block is placed around the code that might generate an exception. 
+Code within a try/catch block is referred to as protected code,
+
+syntax for using try/catch looks like the following: -----------------
+try
+
+	{
+
+		// Some code
+
+	}catch(Exception e){
+
+		// Code for Handling the exception
+
+	}
+
+
+Multiple Catch blocks: --------------------------
+
+A try block can be followed by multiple catch blocks.
+there are multiple exceptions and you can expect more than one type of exception on a single code block and if you like to handle each type of exception separately with a separate block of code. 
+The syntax for multiple catch blocks looks like the following:
+try
+
+	{
+
+	   //Some code
+
+	}catch(ExceptionType1 e1){
+
+	   //Code for Handling the Exception 1
+
+	}catch(ExceptionType2 e2){
+
+	   //Code for Handling the Exception 2
+
+	}
+
+There is no restriction on the number of the catch blocks, you can use more than two. 
+
+if an exception occurs in the protected code, the exception is thrown to the first catch block in the list. 
+If the exception thrown matches the ExceptionType1, it gets caught there and it executes the code which is under the same exception block. 
+If not, the exception passes down to the second catch statement and goes on like this.
+
+Note: In case the exception does not match with any exception type and falls through all catches, the current method stops execution and exception is thrown.
+That is why it is advisable to include default exception as well in the end, so in case if the exception falls through, it can be handled by the default one.
+
+
+Throw: ---------------------------------------
+Sometimes we want to generate exception explicitly in our code, 
+for example in Selenium Automation Framework most of the time we print self-written logs, once we catch an exception and then we need to throw that exception back to the system so that the test case can be terminated. 
+Throw keyword is used to throw exception to the runtime to handle it.
+
+Throws: ----------------------------------------
+When we are throwing any exception in a method and not handling it, 
+then we need to use throws keyword in method signature to let caller program know the exceptions that might be thrown by the method.
+
+// Method Signature\
+
+public static void anyFunction() throws Exception{
+
+    try{
+
+		// write your code here    
+
+	}catch (Exception e){
+
+		// Do whatever you wish to do here
+
+		// Now throw the exception back to the system
+
+        throw(e);
+
+        }
+
+    }
+
+Multiple Exceptions: We can provide multiple exceptions in the throws clause.
+public static void anyFunction() throws ExceptionType1, ExceptionType2{
+
+	try	{
+
+		//Some code 
+
+	}catch(ExceptionType1 e1){ 
+
+		//Code for Handling the Exception 1
+
+	}catch(ExceptionType2 e2){
+
+		//Code for Handling the Exception 2
+
+	}
+
+
+Finally: ------------------------------------------------------
+The finally keyword is used to create a block of code that follows a try block. 
+A finally block of code always executes, whether an exception has occurred or not.
+
+try
+
+	{
+
+	   //Protected code
+
+	}catch(ExceptionType1 e1)
+
+	{
+
+	   //Catch block
+
+	}catch(ExceptionType2 e2)
+
+	{
+
+	   //Catch block
+
+	}catch(ExceptionType3 e3)
+
+	{
+
+	   //Catch block
+
+	}finally
+
+	{
+
+	   //The finally block always executes.
+
+	}
+
+
+Exception Handling in Selenium ###################################################
+Your Selenium test should be able to fail, but not because of exceptions that are thrown.
+If your test is failing from exceptions then quite likely you have no exception handling. 
+By doing this, you don't have the opportunity to cleanup the WebDriver object at the end of the test.
+The tests should be failing under your terms only for example, you should never be getting exceptions like NullPointerException but if you are getting such as ElementNotFoundException, then also it is good idea to catch the exception, stop the further execution and end your test in a Logical way.
+
+Example 1: I do not use any Page Object Factory but I use my own Page Object Pattern and I always print error logs and take screenshot on any exception I encounter. Please look at the code below:
+public static WebElement btn_ReportCategory(WebDriver driver) throws Exception{
+
+        try{
+
+            WebElement element = driver.findElement(By.linkText("+ Report Categories"));
+
+        }catch (Exception e){
+
+			// Printing logs for my report
+
+            Log.error("Report Category button element is not found.");
+
+			// Taking screenshot for defect reporting
+
+			Utils.captureScreenShot();
+
+			// After doing my work, now i want to stop my test case
+
+            throw(e);
+
+        }
+
+		// This will return the Element in case of no Exception
+
+        return element;
+
+    }
+
+Example 2: TimeoutException using Selenium WebDriver.
+try{
+
+    myTestDriver.findElement(By.xpath("//*[@id='register']")).click();
+
+}catch (TimeoutException toe) {
+
+	wait.until( ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='register']")));
+
+	myTestDriver.findElement(By.xpath("//*[@id='register']")).click();
+
+}catch (Exception e) {
+
+	Log.error("Register element is not found.");
+
+	throw(e);
+
+    }
+
+}
+
+Example 3: Let's assume that in Selenium WebDriver you want to verify the presence of any element on the page. You would not be able to get this with element locator because if the element is present, your locator will work and you will easily be able to print that the element is present but in case your element is not present on the page, your locator will fail and simply throw the exception. This case would be easily handled with the self-written function.
+public static boolean verifyObjectPresent(WebDriver driver) {
+
+	    try {
+
+	    	driver.findElement(By.linkText("+ Report Categories"));
+
+	    	return true;
+
+	    } catch (Exception e) { 
+
+	    	return false;
+
+	    }
+
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
