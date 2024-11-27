@@ -170,14 +170,18 @@ Note:
  In Our Program if at least One Method terminates Abnormally then the Program Termination is Abnormal Termination.
 
 Exception Hierarchy ------------------------------------------------------------------
- Throwable Class Acts as Root for Exception Hierarchy.
- Throwable Class contains 2 Child Classes Exception and Error
-Exception: Most of the Cases Exceptions are Caused by Our Program and these are Re- Coverable.
+> Throwable Class Acts as Root for Exception Hierarchy.
+> Throwable Class contains 2 Child Classes Exception and Error
+
+Exception:
+Most of the Cases Exceptions are Caused by Our Program and these are Re- Coverable.
 Eg:
  If Our Programming Requirement is to Read Data from the File locating at London.
  At Runtime if London File is Not Available then we get FileNotFoundException.
  If FileNotFoundException Occurs we can Provide Local File to Continue Rest of the Program Normally.
  Programmer is Responsible to Recover Exception.
+
+
 Error:
  Most of the Cases Errors are Not Caused by Our Program and these are Due to Lack of System Resources.
  Errors are Non- Recoverable.
@@ -188,53 +192,356 @@ Eg:
 
 
 
+Checked Vs Unchecked Exception:
+Checked Exceptions:
+> The Exceptions which are Checked by the Compiler for Smooth Execution of the Program at Runtime are Called Checked Exceptions.
+> Compiler Checks whether we are handling Checked Exceptions OR Not. If we are Not handling then we will get Compile Time Error.
+Eg:
+HallTicketMissingException, PenNotWorkingException, FileNotFoundException, Etc.
+
+Unchecked Exceptions:
+> The Exceptions which are Not Checked by the Compiler are Called Unchecked Exception.
+> Compiler won't Check whether we are Handle OR Not Unchecked Exceptions.
+Eg: ArithmeticException, NullPointerException, BombBlostException, Etc.
+
+Note:
+1 Whether the Exception is Checked OR Unchecked Compulsory it will Occur at Runtime Only.
+2 There is No Chance of occurring any Exception at Compile Time.
+3 Runtime Exceptions and its Child Classes, Errors and its Child Classes are Unchecked Exceptions Except these all remaining are Considered as Checked Exceptions
+
+
+                                              Throwable
+
+               Exception                                                                                           Error
+
+RuntimeException                    IOException           InterruptedException      RemoteException          VirtualMachineError         LinkageError       AssertionError
+                                                                                                                --- OutOfMemoryError        --- VerifyError
+                                         ---EOFException                                                        --- StackOverFlowError
+                                         ---FileNotFoundException                                                      
+ArithmeticException                      ---InterruptedIOException
+NullPointerException
+ClassCastException
+
+IndexOutOfBoundsException - 
+             ------  StringIndexOutOfBoundsException
+             ------  ArrayIndexOutOfBoundsException   
+IllegalArgumentException
+    ----------NumberFormatException
+
+IllegalStateException
+  -----IllegalThreadStateException
+  -----IllegalMonitorStateException
 
 
 
+Fully Checked Vs Partially Checked: -----------------------------------------------
+
+A Checked Exception is Said to be Fully Checked if and Only if all its Child Classes also Checked.
+Eg: IOException, InterruptedException, ServletException, Etc...
+
+A Checked Exception is Said to be Partially Checked if and Only if Some of its Child Classes are Unchecked.
+Eg: Throwable, Exception.
+
+Note: The Only Possible Partially Checked Exceptions in Java are
+☀ Throwable
+☀ Exception
+
+Describe the Behaviour of the following Exceptions
+1) IOException  Fully Checked
+2) RuntimeException  Unchecked
+3) InterruptedException  Fully Checked
+4) Error  Unchecked
+5) Throwable  Partially Checked
+6) ArithmeticException  Unchecked
+7) NullPointerException  Unchecked
+8) Exception  Partially Checked
+9) FileNotFoundException  Fully Checked
+
+
+Customized Exception Handling by using try - catch---------------------------
+> It is Highly Recommended to Handle Exceptions.
+> The Code which May Raise an Exception is Called Risky Code.
+> We have to Place that Risky Code Inside try Block and Corresponding Handle Code Inside catch Block.
+
+
+try
+{
+//Risky Code
+}
+catch (Exception e)
+{
+//Handling Code
+}
+
+
+Example And Cases---------------------------------------------------
+
+
+Without try – catch  - Abnormal Termination
+class Test {
+public static void main(String[] args) {
+System.out.println("Statement 1");
+System.out.println(10/0);
+System.out.println("Statement 2");
+}
+}
+
+Statement 1
+RE: Exception in thread "main" java.lang.ArithmeticException: / by zero
+at Test.main(Test.java:4)
+
+##############################################################################
+
+With try - catch  --- Normal Termination
+
+class Test {
+public static void main(String[] args) {
+System.out.println("Statement 1");
+try {
+System.out.println(10/0);
+}
+catch(ArithmeticException e) {
+System.out.println(10/2);
+}
+System.out.println("Statement 2");
+}
+}
+
+
+Statement 1
+5
+Statement 2
+
+
+Control Flow in try – catch: ---------------------------
+try {
+Statement 1;
+Statement 2;
+Statement 3;
+}
+catch(X e) {
+Statement 4;
+}
+Statement 5;
+
+
+Case 1: If there is No Exception  1, 2, 3, 5, Normal Termination.
+Case 2: If an Exception raised in Statement 2 and Corresponding catch Block Matched  1, 4, 5, Normal Termination.
+Case 3: If an Exception raised at Statement 2 and Corresponding catch Block Not Matched  1 followed by Abnormal Termination.
+Case 4: If an Exception raised at Statement-4 OR Statement-5 then it’s Always Abnormal Termination.
+
+Conclusions:
+ Within the try Block if any where an Exception raised then Rest of the try Block won't be executed even though we handled that Exception.
+ Hence within the try Block we have to Take Only Risky Code and Hence Length of the try Block should be as Less as Possible.
+ If there is any Statement which raises an Exception and it is Not Part of the try Block then it is Always Abnormal Termination.
+ In Addition to try Block there May be a Chance of raising an Exception Inside catch and finally Blocks Also.
+
+
+Methods to Print Exception Information
+Throwable Class defines the following Methods to Print Exception Information.
+
+Method                                    Printed Format
+printStackTrace()      Name of the Exception: Description Stack Trace
+
+toString()            Name of the Exception: Description
+
+getMessage()          Description
 
 
 
+class Test {
+public static void main(String[] args) {
+try {
+System.out.println(10/ 0);
+}
+catch (ArithmeticException e) {
+e.printStackTrace(); //RE: java.lang.ArithmeticException: / by zero
+at Test.main(Test.java:4)
+System.out.println(e); //RE: java.lang.ArithmeticException: / by zero
+System.out.println(e.getMessage()); /// by zero
+}
+}
+}
+
+Note: Internally Default Exception Handler Uses printStackTrace() to Print Exception Information to the Console.
+
+try with Multiple catch Blocks -------------------------------------------------------------
+The way of handling an Exception is varied from Exception to Exception.
+Hence for Every Exception Type we have to define a Separate catch Block. Hence try with Multiple catch Blocks is Possible and Recommended to Use.
+
+Not Recommended &&&&&&&&&&&&&&&&
+try {
+::::::::::::
+::::::::::::
+}
+catch (Exception e) {
+:::::::::::
+:::::::::::
+}
+
+
+Recommended &&&&&&&&&&&&&&&&&&&&&&&&&
+try {
+::::::::::::::
+::::::::::::::
+}
+catch (ArithmeticException e) {
+//Perform these an Alternative ArithmeticException
+}
+catch (NullPointerException e) {
+//Handling Related to null
+}
+catch (FileNotFoundException) {
+//Use Local File Instead of Remote File
+}
+catch (SQLException e) {
+//Use MySQL DB Instead of Oracle
+}
+catch (Exception e) {
+Default Exception Handling
+}
 
 
 
+Note:
+ If try with Multiple catch Blocks Present then the Order of catch Blocks are Very Important. It should be from Child to Parent.
+ By Mistake if we are trying to Take Parent to Child then we will get Compile Time Error Saying: exception XXX has already been caught
+
+try {}
+catch (Exception e) {}
+catch (ArithmeticException e) {} //CE: exception ArithmeticException has already been caught
+
+try {}
+catch (ArithmeticException e) {}
+catch (Exception e) {}
+
+For any Exception if we are writing 2 Same catch Blocks we will get Compile Time Error.
+
+try {}
+catch(ArithmeticException e) {}
+catch(ArithmeticException e) {} //CE: error: exception ArithmeticException has already been caught
 
 
+finally Block --------------------------------------
+> It is Never Recommended to Define Clean-up Code Inside try Block. Because there is No Guaranty for the Execution of Every Statement Inside try Block.
+> It is Never Recommended to Define Clean-up Code Inside catch Block. Because if there is No Exception then catch Block won't be executed.
+> Hence we required Some Place to Maintain Clean-up Code which should be executed Always irrespective of whether Exception raised OR Not raised and whether Handled OR Not Handled. Such Type of Best Place is Nothing but finally Block.
+> Hence the Main Objective of finally Block is to Maintain Clean-up Code.
+
+try {
+//Risky Code
+}
+catch(X e) {
+//Handling Code
+}
+finally {
+//Clean Up Code
+}
 
 
+> The Specialty of finally Block is it will be executed Always irrespective of whether Exception raised OR Not raised and whether Exception Handled OR Not Handled.
+
+Example
+class Test {
+public static void main(String[] args) {
+try {
+System.out.println ("try");
+}
+catch (Exception e) {
+System.out.println ("catch");
+}
+finally {
+System.out.println ("finally");
+}
+}
+}
+
+try
+finally 
+
+try catch finally example
+class Test {
+public static void main(String[] args) {
+try {
+System.out.println ("try");
+System.out.println (10/0);
+}
+catch (Exception e) {
+System.out.println ("catch");
+}
+finally {
+System.out.println ("finally");
+}
+}
+}
 
 
+try
+catch
+finally
+
+class Test {
+public static void main(String[] args) {
+try {
+System.out.println ("try");
+System.out.println (10/0);
+}
+catch (NullPointerException e) {
+System.out.println ("catch");
+}
+finally {
+System.out.println ("finally");
+}
+}
+}
+
+try
+finally
+Exception in thread "main" java.lang.ArithmeticException: / by zero
+at Test.main(Test.java:5)
+
+finally Vs return:
+If return Statement Present Inside try OR catch Blocks 1st finally will be executed and after that Only return Statement will be Considered i.e. finally Block Dominates return Statement.
+class Test {
+public static void main(String[] args) {
+try {
+System.out.println("try");
+return;
+}
+catch(Exception e) {
+System.out.println("catch");
+}
+finally {
+System.out.println("finally");
+}
+}
+}
+
+try
+finally
+
+If try-catch-finally Blocks having return Statements then finally Block return Statement will be Considered
+i.e. finally Block return Statement has More Priority than try and catch Block return Statements.
 
 
+class Test {
+public static void main(String[] args) {
+System.out.println(m1()); //999
+}
+public static int m1() {
+try {
+return 777;
+}
+catch(Exception e) {
+return 888;
+}
+finally {
+return 999;
+}
+}
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+finally Vs System.exit(0): -----------------
 
 
 
