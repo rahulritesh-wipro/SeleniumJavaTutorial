@@ -1,0 +1,333 @@
+1) Introduction
+2) Runtime Stack Mechanism
+3) Default Exception Handling in Java
+4) Exception Hierarchy
+5) Customized Exception Handling by using try & catch
+6) Control Flow in try & catch
+7) Methods to Print Exception Information
+8) try with Multiple catch Blocks
+9) finally Block
+10) Difference between final, finally & finalize()
+11) Various Possible Combinations of try-catch-finally
+12) Control Flow in try-catch-finally
+13) Control Flow in Nested try-catch-finally
+14) throw Key Word
+15) throws Key Word
+16) Exception Handling Key Words Summary
+17) Various Possible Compile-Time Errors in Exception Handling
+18) Customized OR User defined Exceptions
+19) Top 10 Exception
+20) 1.7 Version Enhancements
+ try with Resources
+ Multi- catch Block
+
+
+Introduction
+
+Q) What is an Exception?
+Q) What is the Purpose of Exception Handling?
+Q) What is the Meaning of Exception Handling?
+
+ An Unwanted Unexpected Event that Disturbs Normal Flow of the Program is Called Exception.
+Eg: SleepingException, TyrePuncheredException, FileNotFoundException Etc…
+
+ It is Highly Recommended to Handle Exceptions.
+
+ The Main Objective of Exception Handling is Graceful Termination of the Program.
+i.e. we should Not Miss anything, we should Not Block any Resource.
+
+
+Exception Handling:
+ Exception Handling doesn’t mean repairing an Exception. instead We have to define an Alternative Way to Continue Rest of the Program Normally.
+ This Way of defining Alternative is nothing but Exception Handling.
+
+ For Example--------
+if Our Programming Requirement is to Read Data from the File locating at London.
+At Runtime if London File is Not Available then Our Program should Not be terminated Abnormally.
+We have to provide Some Local File to Continue Rest of the Program Normally. 
+This Way of defining Alternative is nothing but Exception Handling.
+
+try {
+//Read Data from Remote File locating at London
+}
+catch (FileNotFoundException e) {
+//Use Local File and Continue Rest of the Program Normally
+}
+
+
+
+Runtime Stack Mechanism
+1 For Every Thread JVM will Create a Runtime Stack. Stack - LIFO Last In First Out
+2 Every Method Call performed by that Thread will be stored in the Corresponding Stack.
+3 Each Entry in the Stack is Called Activation Record OR Stack Frame.
+4 After completing Every Method Execution JVM Removes the Corresponding Entry from the Stack.
+5 After completing all Method Calls the Stack become Empty and that Empty Stack will be Destroyed by the JVM and the Program will be terminated Normally.
+
+Example---
+class Test {
+public static void main(String[] args) {
+doStuff();
+}
+public static void doStuff() {
+doMoreStuff();
+}
+public static void doMoreStuff() {
+System.out.println("Hello"); //Hello
+}
+}
+
+
+
+                                                    doMoreStuff()------
+                                    doStuff()------ doStuff()---------- doStuff()
+Runtime Stack-------main()----------main()----------main()--------------main()------main()---Runtime Stack
+                    activation record                                                         Empty stack will be destroyed by JVM
+                       or
+                    Stack Frame 
+
+
+
+Default Exception Handling in Java-------------------------------------------------------------------
+> In Our Java Program Inside a Method if an Exception raised, then that Method is Responsible to Create an Exception Object by including the following Information.
+1 Name of Exception
+2 Description of Exception
+3 Location of Exception (Stack Trace)
+
+
+> After creating Exception Object Method Handovers that Object to the JVM.
+> JVM will Check whether Corresponding Method contain any Exception Handling Code OR Not.
+> If the Method doesn't contain any Exception Handling Code then JVM Terminates that Method Abnormally and Removes Corresponding Entry from the Stack.
+> JVM will Identify Caller Method and Check whether the Caller Method contain any Exception Handle Code OR Not.
+> If Caller Method doesn't contain any Exception Handling Code then JVM Terminates that Caller Method and Removes Corresponding Entry from the Stack.
+> This Process will be continued until main().
+> If the main() also doesn't contain Exception Handling Code then JVM Terminates main() Abnormally and Removes Corresponding Entry from the Stack.
+
+> Then JVM Handovers the Responsibility of Exception Handling to the Default Exception Handler, which is the Part of the JVM.
+> Default Exception Handler Just Terminates the Program Abnormally and Prints Exception Information to the Console in the following Format.
+Exception in thread: “Xxx” Name of the Exception: Description
+Stack Trace
+
+Examples:
+
+class Test {
+public static void main(String[] args) {
+doStuff();
+}
+public static void doStuff() {
+doMoreStuff();
+}
+public static void doMoreStuff() {
+System.out.println(10/0);
+}
+}
+RE: Exception in thread "main" java.lang.ArithmeticException: / by zero                            doMoreStuff()
+at Test.doMoreStuff(Test.java:9)                                                                   doStuff()
+at Test.doStuff(Test.java:6)                                                                       main()
+at Test.main(Test.java:3)                                                                          RuntimeStack
+
+Example 2-------------
+class Test {
+public static void main(String[] args) {
+doStuff();
+}
+public static void doStuff() {
+doMoreStuff();
+System.out.println(10/0);
+}
+public static void doMoreStuff() {
+System.out.println("Hello");
+}
+}
+
+Hello
+Exception in thread "main" java.lang.ArithmeticException: / by zero
+at Test.doStuff(Test.java:7)
+at Test.main(Test.java:3)
+
+Example 3----------
+
+class Test {
+public static void main(String[] args) {
+doStuff();
+System.out.println(10/0);
+}
+public static void doStuff() {
+doMoreStuff();
+System.out.println("Hi");
+}
+public static void doMoreStuff() {
+System.out.println("Hello");
+}
+}
+
+Hello
+Hi
+Exception in thread "main" java.lang.ArithmeticException: / by zero
+at Test.main(Test.java:4)
+
+Note:
+ In Our Program if all Methods Terminated Normally, then Only the Program will be Terminated Normally.
+ In Our Program if at least One Method terminates Abnormally then the Program Termination is Abnormal Termination.
+
+Exception Hierarchy ------------------------------------------------------------------
+ Throwable Class Acts as Root for Exception Hierarchy.
+ Throwable Class contains 2 Child Classes Exception and Error
+Exception: Most of the Cases Exceptions are Caused by Our Program and these are Re- Coverable.
+Eg:
+ If Our Programming Requirement is to Read Data from the File locating at London.
+ At Runtime if London File is Not Available then we get FileNotFoundException.
+ If FileNotFoundException Occurs we can Provide Local File to Continue Rest of the Program Normally.
+ Programmer is Responsible to Recover Exception.
+Error:
+ Most of the Cases Errors are Not Caused by Our Program and these are Due to Lack of System Resources.
+ Errors are Non- Recoverable.
+Eg:
+ If OutOfMemoryError Occurs, being a Programmer we can't do anything and the Program will be terminated Abnormally.
+ System Admin OR Server Admin is Responsible to Increase Heep Memory.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
