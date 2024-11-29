@@ -542,40 +542,447 @@ return 999;
 }
 
 finally Vs System.exit(0): -----------------
+There is Only One Situation where the finally Block won't be executed that is whenever we are System.exit(0).
+Whenever we are using System.exit(0) then JVM itself will be Shutdown and hence finally Block won't be executed.
+Note - That is System.exit(0) Dominates finally Block.
+
+class Test {
+public static void main(String[] args) { try {
+System.out.println("try");
+System.exit(0);
+}
+catch(Exception e) {
+System.out.println("catch"); }
+finally {
+System.out.println("finally"); }
+}
+}
+
+try
+
+System.exit(0);
+☀ We can Use this Method to Exit (Shut Down) the System (JVM) Programmatically.
+☀ The Argument Represents as Status Code.
+☀ Instead of 0 we can Pass any Valid int Value.
+☀ 0 Means Normal Termination, Non- Zero Means Abnormal Termination.
+☀ So this status code internally used by JVM.
+☀ Whether it is 0 OR Non- Zero, Effect is Same in Our Program but this Number Internally used by JVM.
+
+
+Difference between final, finally and finalize --------------------------------------------------
+
+final:
+> final is a Modifier is Applicable for Classes, Methods and Variables.
+> If a Class declared as final then we can't Create Child Class. That is Inheritance is Not Possible for final Classes.
+> If a Method declared as final then we can't Override that Method in Child Classes.
+> If a Variable declared as final then we can't Perform Re- Assignment for that Variable.
+
+finally:
+> finally is a Block Always associated with try-catch to Maintain Clean Up Code.
+> The Specialty of finally Block is it will be executed Always Irrespective of whether Exception raised OR Not and whether Handled OR Not Handled.
+
+finalize():
+> finalize() is a Method Always Called by the Garbage Collector Just before Destroying an Object to Perform Clean Up Activities.
+> Once finalize() Completes Automatically Garbage Collector Destroys that Object.
+
+Note:
+ finalize() is Responsible to Perform Object Level Clean-Up Activities
+whereas finally Block is Responsible to Perform try Block Level Clean-Up Activities
+i.e. whatever Resources we Opened at the Time of try Block will be Closed Inside finally Block
+
+> It is Highly Recommended to Use finally Block than finalize()because we can't Expect Exact Behavior of Garbage Collector.
+It is JVM Vendor Dependent.
+
+
+Control Flow in try - catch - finally:--------------------------------------
+
+
+try {
+System.out.println("Statement 1");
+System.out.println("Statement 2");
+System.out.println("Statement 3");
+}
+catch(X e) {
+System.out.println("Statement 4");
+}
+finally {
+System.out.println("Statement 5");
+}
+System.out.println("Statement 6");
 
 
 
 
+Case 1: If there is No Exception. 1, 2, 3, 5 and 6  Normal Termination.
+Case 2: If an Exception raised at Statement 2 and Corresponding catch Block Matched. then 1, 4, 5, 6  Normal Termination.
+Case 3: If an Exception raised at Statement 2 and Corresponding catch Block Matched. then 1 and 5 Abnormal Termination.
+Case 4: If an Exception raised at Statement 4 then it is Always Abnormal Termination but before that finally Block will be executed.
+Case 5: If an Exception raised at Statement 5 OR Statement 6 then it is Always Abnormal Termination.
+
+
+Control Flow in Nested try - catch - finally:
+try {
+System.out.println("Statement 1");
+System.out.println("Statement 2");
+System.out.println("Statement 3");
+       try {
+                System.out.println("Statement 4");
+                System.out.println("Statement 5");
+                System.out.println("Statement 6");
+           }
+       catch(X e) {
+                System.out.println("Statement 7");
+                  }
+        finally {
+                System.out.println("Statement 8");
+                }
+
+
+System.out.println("Statement 9");
+}
+catch(X e) {
+System.out.println("Statement 10");
+}
+finally {
+System.out.println("Statement 11");
+}
+
+System.out.println("Statement 12");
+
+Case 1: If there is No Exception then 1, 2, 3, 4, 5, 6, and 8, 9, 11, 12 Normal Termination.
+Case 2: If an Exception raised at Statement 2 and Corresponding catch Block Matched 1, 10, 11, and 12 Normal Terminations.
+Case 3: If an Exception raised at Statement 2 and Corresponding catch Block is Not Matched 1 and 11 Abnormal Termination.
+Case 4: If an Exception raised at Statement 5 and Corresponding Inner catch Block has Matched 1, 2, 3, 4, 7, 8, 9, 11, 12 Normal Termination.
+Case 5: If an Exception raised at Statement 5 and Inner catch Block has Not Matched but Outer catch Block has Matched. 1, 2, 3, 4, 8, 10, 11, and 12 Normal Termination.
+Case 6: If an Exception raised at Statement 5 and Both Inner and Outer catch Blocks are Not Matched then 1, 2, 3, 4, 8, and 11 Abnormal Termination.
+Case 7: If an Exception raised at Statement 7 and Corresponding catch Block Matched 1, 2, 3,.,.,., 8, 10, 11, and 12 Normal Termination.
+Case 8: If an Exception raised at Statement 7 and Corresponding catch Block Not Matched 1, 2, 3,.,.,.,8, and 11 Abnormal Termination.
+Case 9: If an Exception raised at Statement 8 and Corresponding catch Block has Matched 1, 2, 3,.,.,.,., 10, 11, and 12 Normal Termination.
+Case 10: If an Exception raised at Statement 8 and Corresponding catch Block Not Matched 1, 2, 3,.,.,.,., 11 Abnormal Termination.
+Case 11: If an Exception raised at Statement 9 and Corresponding catch Block Matched 1, 2, 3,.,.,.,., 8, 10, 11, and 12 Normal Termination.
+Case 12: If an Exception raised at Statement 9 and Corresponding catch Block Not Matched 1, 2, 3,.,.,.,.,8, and 11 Abnormal Termination.
+Case 13: If an Exception raised at Statement 10 is Always Abnormal Termination but before that finally Block 11 will be executed.
+Case 14: If an Exception raised at Statement 11 OR 12 it is Always Abnormal Termination.
+
+
+Note:
+> We can Take try – catch – finally Inside try Block i.e. Nesting of try – catch – finally is Always Possible.
+> More Specific Exceptions can be handled by Inner catch Block and Generalized Exceptions are handled by Outer catch Blocks.
+> Once we entered into the try Block without executing finally Block the Control Never Comes Up.
+> If we are Not entering into the try Block then finally Block won’t be executed.
+
+class Test {
+public static void main(String[] args) {
+try {
+System.out.println(10/0);
+}
+catch(ArithmeticException e) {
+System.out.println(10/0);
+}
+finally {
+String s = null;
+System.out.println(s.length());
+}
+}
+}
+
+Note: Default Exception Handler can Handle Only One Exception at a Time i.e. the Most Recently raised Exception.
+
+Various Possible Combinations of try-catch-finally ----------------------------
+> In try-catch-finally Order is Important.
+> Inside try-catch-finally we can take try-catch-finally that is nesting of try-catch-finally is always possible.
+> Whenever we are taking try Compulsory we have to Take either catch OR finally Blocks i.e. try without catch OR finally is Invalid.
+> Whenever we are writing catch Block Compulsory we have to write try Block i.e. catch without try is Invalid.
+> Whenever we are writing finally Block Compulsory we should write try i.e. finally without try is Invalid.
+> For try-catch-finally Blocks Curly Braces are Mandatory.
+> We can’t write 2 catch Blocks for the Same Exception Otherwise we will get CE.
+
+try {}
+catch (X e) {}
+
+try {}
+catch (X e) {}
+catch (Y e) {}
+
+try {}
+catch (X e) {}
+catch (X e) {} // CE: exception ArithmeticException has already been caught
+
+try {}
+finally {}
+
+try {} //CE: 'try' without 'catch', 'finally' or resource declarations
+
+finally {} //CE: 'finally' without 'try'
+
+catch (X e) {} //CE: 'catch' without 'try'
+
+try {} //CE: 'try' without 'catch', 'finally' or resource declarations
+System.out.println("Hello");
+catch {} //CE: 'catch' without 'try'
+
+try {}
+catch (X e) {}
+System.out.println("Hello");
+catch (Y e) {} //CE: 'catch' without 'try'
+
+try {}
+catch (X e) {}
+System.out.println("Hello");
+finally {} //CE: 'finally' without 'try'
+
+try {}
+finally {}
+catch (X e) {} //CE: 'catch' without 'try'
+
+try {}
+catch (X e) {}
+try {}
+finally {}
+
+try {}
+catch (X e) {}
+finally {}
+finally {} //CE: 'finally' without 'try'
+
+
+try {}
+catch (X e) {
+           try {}
+           catch (Y e1) {}
+}
+
+
+try {}
+catch (X e) {}
+finally {
+-         try {}
+          catch (Y e1) {}
+          finally {}
+}
+
+
+try {
+try {} //CE: 'try' without 'catch', 'finally' or resource declarations
+}
+catch (X e) {}
+
+try //CE: '{' expected
+System.out.println("Hello");
+catch (X e1) {} //CE: 'catch' without 'try'
+
+try {}
+catch (X e) //CE:'{' expected
+System.out.println("Hello");
+
+
+try {}
+catch (NullPointerException e1) {}
+finally //CE: '{' expected
+System.out.println("Hello");
+
+
+throw Keyword: ---------------------------------
+> Sometimes we can Create Exception Object Explicitly and we can Handover Our Created Exception Object to the JVM Manually.
+For this we have to Use throw key Word.
+Eg:
+throw new ArithmeticException("/by zero");
+
+throw Key Word Handover Our Created Exception Objet to the JVM Manually
+Creation of Exception Object Explicitly
+
+In General we can Use throw Key Word for Customized Exceptions but Not for pre-defined Exceptions.
+The Result of following 2 Programs is Exactly Same.
+
+Case – 1 
+class Test {
+public static void main(String[] args) {
+System.out.println(10/0);
+}
+}
+//Exception in thread "main" java.lang.ArithmeticException: / by zero
+
+Case – 2
+class Test1 {
+public static void main(String[] args) {
+throw new ArithmeticException("/ by zero Explicitly");
+}
+}
+//Exception in thread "main" java.lang.ArithmeticException: / by zero Explicitly
+
+In the Case – 1 main() is Responsible to Create Exception Object and Handover to the JVM. This Total Activity will be performed Internally.
+In the Case – 2 Programmer creating Exception Object Explicitly and Handover to the JVM Manually.
+Hence the Main Purpose of throw Key Word is to Handover Our Created Exception Object to the JVM Manually.
+
+Case 1: throw e;
+If ‘e’ Refers ‘null’ then we will get NullPointerException.
+
+class Test {
+static ArithmeticException e = new ArithmeticException();
+public static void main(String[] args) {
+throw e;
+}
+}
+RE: Exception in thread "main" java.lang.ArithmeticException
+
+class Test {
+static ArithmeticException e;
+public static void main(String[] args) {
+throw e;
+}
+}
+//RE: Exception in thread "main" java.lang.NullPointerException
+
+
+Case 2: After throw Statement we are Not allowed to write any Statements Directly Otherwise we will get Compile Time Error Saying unreachable statement.
+
+class Test {
+public static void main(String[] args) {
+System.out.println(10/0);
+System.out.println("Hello");
+}
+}
+RE: Exception in thread "main" java.lang.ArithmeticException: / by zero
+
+class Test {
+public static void main(String[] args) {
+throw new ArithmeticException("/by zero");
+System.out.println("Hello"); //CE: unreachable statement
+}
+}
+
+Case 3: We can Use throw Key Word Only for Throwable Types. Otherwise we will get Compile Time Error Saying incompatible types.
+class Test {
+public static void main(String[] args) {
+throw new Test();
+}
+}
+
+CE: incompatible types
+required: Throwable
+found: Test
+
+class Test extends RuntimeException {
+public static void main(String[] args) {
+throw new Test();
+}
+}
+RE: Exception in thread "main" Test
+
+throws Key Word -------------------------------------------------------------------
+In Our Program if there is any Chance of raising Checked Exception,
+then Compulsory we should Handled that Checked Exception Otherwise we will get Compile Time Error
+Saying unreported exception XXX; must be caught or declared to be thrown.
+
+import java.io.PrintWriter;
+class Test {
+public static void main(String[] args) {
+PrintWriter out = new PrintWriter("Abc.txt");
+out.println("Hello");
+}
+}
+CE: unreported exception FileNotFoundException; must be caught or declared to be thrown
+
+class Test {
+public static void main(String args[]) {
+Thread.sleep(5000);
+}
+}
+CE: unreported exception InterruptedException; must be caught or declared to be thrown
+
+We can Handle this Compile Time Error in 2 Ways.
+1) By Using try-catch
+2) By Using throws Key Word
+
+1st Way: By Using try – catch Block ------------------
+class Test {
+public static void main(String args[]) {
+try {
+Thread.sleep(5000); }
+catch (InterruptedException e) {}
+}
+}
+
+
+2nd Way: By Using throws Key Word
+> We can use throws Key Word to Delegate the Responsibility of Exception Handling to the Caller Method (It May be Another Method OR JVM). Then Caller is Responsible to Handle that Checked Exception.
+> throws Key Word required Only for Checked Exceptions.
+> Usage of throws Key Word for Unchecked Exceptions there is No Use.
+> throws Key Word required Only to Convince Compiler and it doesn’t Prevent Abnormal Termination of the Program.
+> Hence Recommended to Use try- catch- finally Over throws Key Word.
 
 
 
+class Test {
+public static void main(String[] args)throws InterruptedException {
+Thread.sleep(5000);
+}
+}
+
+Conclusions:
+
+throws
+KeyWord
+
+1) We can Use to Delegate the Responsibility of Exception Handling to the Caller.
+2) It is required Only for Checked Exceptions and for Unchecked Exceptions there is No Use.
+3) It is required Only to Convince Compiler and its Usage doesn’t Prevent Abnormal Termination of the Program.
+
+class Test {
+public static void main(String[] args)throws InterruptedException {
+doStuff();
+}
+public static void doStuff()throws InterruptedException {
+doMoreStuff();
+}
+public static void doMoreStuff()throws InterruptedException {
+Thread.sleep(5000);
+}
+}
+
+In the Above Program if we Remove at-least One throws Statement then the Code won't Compile. 
+We will get CE: unreported exception InterruptedException; must be caught or declared to be thrown
+
+Case 1: We can Use throws Key Word Only for Methods and Constructors but Not for Classes.
+class Test throws Exception {
+Test() throws Exception {} √
+public static void m1() throws Exception {} √
+}
+
+Case 2:
+We can Use throws Key Word Only for Throwable Types but Not for Normal Java Classes. Otherwise we will get Compile Time Error Saying
+incompatible types
+required: java.lang.Throwable
+found: Test
+
+class Test {
+public static void main(String[] args) throws Test {}
+}
+CE: incompatible types
+required: Throwable
+found: Test
+
+class Test extends RuntimeException/ Exception/ Throwable {
+public static void main(String[] args) throws Test {}
+} √
+
+Case 3: -----------
+
+class Test {
+public static void main(String[] args) {
+throw new Exception();  // checked Exception
+}
+}
+CE: unreported exception Exception; must be caught or declared to be thrown
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+class Test {
+public static void main(String[] args) {
+throw new Error();  // unchecked Exception
+}
+}
+RE: Exception in thread "main" java.lang.Error
+at Test.main(Test.java:3)
 
 
 
