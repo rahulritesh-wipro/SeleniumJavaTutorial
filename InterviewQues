@@ -1,0 +1,95 @@
+java #######################################################
+
+1. Typecasting - Implicit and Explicit, Widening And Narrowing
+2. what is an interface
+
+
+What is a static member in Java?-----------------
+> A static member (variable or method) belongs to the class rather than any specific instance.
+It can be accessed without creating an instance of the class.
+we can create static memebers by using static access modifier
+
+What is a static method?
+A static method belongs to the class and can be called without creating an instance of the class.
+It can only access static variables and other static methods directly.
+
+Can a static method access instance variables?
+No, a static method cannot access instance variables directly because instance variables belong to an instance of the class.
+to access instance members from static context, we need to create an object of the class where that instance member belongs to.
+
+What is the purpose of the static block?
+A static block is used for static initialization of a class. It runs only once when the class is loaded into memory.
+
+What is an instance member in Java?
+An instance member (variable or method) belongs to an instance of the class. 
+Each instance of the class has its own copy of instance variables.
+if we dont use static it becomes instance member.
+
+What is an instance method?
+An instance method belongs to an instance of the class and can access instance variables and other instance methods directly.
+
+Can an instance method access static variables?
+Yes, an instance method can access static variables and static methods directly.
+
+What is the difference between static and instance members?
+Static members belong to the class and are shared among all instances,
+while instance members belong to individual instances of the class.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
