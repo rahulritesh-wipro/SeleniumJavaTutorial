@@ -1,0 +1,339 @@
+Actions class in selenium
+> How to handle Actions class in Selenium
+> Methods of Actions class
+> Examples of Actions class
+
+How to handle Actions class in Selenium
+Use Actions Class in Selenium to Handle Keyboard & Mouse Events in Selenium. 
+
+What is Actions Class in Selenium?
+Actions class is an ability provided by Selenium for handling keyboard and mouse events.
+
+Selenium WebDriver's Actions class provides a way to perform complex user interactions with web applications.
+Here are some of the keyboard and mouse actions you can perform using the Actions class:
+
+Mouse Actions
+1. Click: Simulate a mouse click on an element. > actions.click(element).perform();
+2. Double Click: Simulate a double-click on an element. > actions.doubleClick(element).perform();
+3. Right Click (Context Click): Simulate a right-click on an element. > actions.contextClick(element).perform();
+4. Mouse Hover: Move the mouse to an element (hover). > actions.moveToElement(element).perform();
+5. Drag and Drop: Drag an element from one location and drop it to another. > actions.dragAndDrop(sourceElement, targetElement).perform();
+6. Click and Hold: Click and hold the mouse button on an element. > actions.clickAndHold(element).perform();
+7. Release: Release the mouse button after a click and hold. > actions.release(element).perform();
+8. Move By Offset: Move the mouse to a specific offset from the current position. > actions.moveByOffset(xOffset, yOffset).perform();
+
+
+Keyboard Actions
+1. Send Keys: Send keystrokes to an element. > actions.sendKeys(element, "text").perform();
+2. Key Down: Press and hold a key (e.g., Shift, Control). > actions.keyDown(Keys.SHIFT).perform();
+3. Key Up: Release a key that was previously pressed. > actions.keyUp(Keys.SHIFT).perform();
+4. Combination of Keys: Perform a combination of keys (e.g., Ctrl + A). > actions.keyDown(Keys.CONTROL).sendKeys("a").keyUp(Keys.CONTROL).perform();
+5. Pressing Special Keys: Send special keys like Enter, Escape, etc. > actions.sendKeys(Keys.ENTER).perform();
+
+Chaining Actions
+You can chain multiple actions together to perform a sequence of actions in one go:
+actions.moveToElement(element)
+       .click()
+       .sendKeys("text")
+       .build()
+       .perform();
+
+Conclusion
+These actions can be combined and customized to simulate a wide range of user interactions, making the Actions class a powerful tool for testing web applications with Selenium WebDriver.
+
+Examples of Actions Class in Selenium
+1. Perform Click Action on the Web Element
+Test Scenario: Visit the Browserstack home page and click on the Get Started Free button.
+
+ public static void clickOnWebElementUsingActionsClass(){
+        WebDriverManager.chromedriver().setup();
+        WebDriver driver = new ChromeDriver();
+        driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        driver.get("https://www.browserstack.com");
+        Actions action = new Actions(driver);
+        WebElement element = driver.findElement(By.linkText("Get started free"));
+        action.moveToElement(element).click().build().perform();
+    }
+
+
+2. Perform Mouse Hover Action on the Web Element
+Test Scenario: Perform Mouse Hover on Live Tab and App Automate Tab on the Browserstack Website.
+
+  public static void mouseHoverActionOnWebElementUsingActionsClass() throws InterruptedException {
+        WebDriverManager.chromedriver().setup();
+        WebDriver driver = new ChromeDriver();
+        driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        driver.get("https://www.browserstack.com");
+
+        // scroll to the element on webpage to make it visible
+        ((JavascriptExecutor) driver).executeScript("scroll(0,300)");
+
+        Actions action = new Actions(driver);
+        WebElement live = driver.findElement(By.xpath("(//a[@title='Live'])[3]"));
+        action.moveToElement(live).build().perform();
+
+        Thread.sleep(3000);
+
+        WebElement automate = driver.findElement(By.xpath("(//a[@title='Automate'])[3]"));
+        automate.click(); // not using Actions class here to click
+
+        Thread.sleep(2000);
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
