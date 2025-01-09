@@ -80,6 +80,333 @@ Test Scenario: Perform Mouse Hover on Live Tab and App Automate Tab on the Brows
         automate.click(); // not using Actions class here to click
 
         Thread.sleep(2000);
+    }
+
+Example 2
+ public static void mouseHoverActionOnTopMenuActionsClass() throws InterruptedException {
+        WebDriverManager.chromedriver().setup();
+        WebDriver driver = new ChromeDriver();
+        driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        driver.get("https://www.browserstack.com");
+        // scroll to the element on webpage to make it visible
+        ((JavascriptExecutor) driver).executeScript("scroll(0,300)");
+
+        Actions action = new Actions(driver);
+        WebElement productCategory = driver.findElement(By.xpath("//button[@id='products-dd-toggle']"));
+        action.moveToElement(productCategory).build().perform();
+
+        Thread.sleep(3000);
+
+        WebElement live = driver.findElement(By.xpath("(//a[@title='Live'])[1]"));
+        action.moveToElement(live).click().build().perform();
+
+        Thread.sleep(2000);
+    }
+
+3. Perform Double Click Action on the Web Element
+Test Scenario: Perform Double Click Action on Free Trial Button in the Browserstack Home page.
+
+public static void doubleClickActionUsingActionsClass() throws InterruptedException {
+        WebDriverManager.chromedriver().setup();
+        WebDriver driver = new ChromeDriver();
+        driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        driver.get("https://www.browserstack.com");
+
+        Actions action = new Actions(driver);
+        WebElement trialaction = driver.findElement(By.xpath("//a[@title='Free Trial']"));
+        action.doubleClick(trialaction).perform();
+    }
+
+
+Keyboard actions
+ref- https://www.selenium.dev/documentation/webdriver/actions_api/keyboard/ 
+A representation of any key input device for interacting with a web page.
+There are only 2 actions that can be accomplished with a keyboard:
+> pressing down on a key,
+> and releasing a pressed key.
+
+In addition to supporting ASCII characters, each keyboard key has a representation that can be pressed or released in designated sequences.
+Keys
+In addition to the keys represented by regular unicode, unicode values have been assigned to other keyboard keys for use with Selenium.
+Each language has its own way to reference these keys; the full list can be found here.
+https://www.w3.org/TR/webdriver/#keyboard-actions
+
+Use the Java Keys enum
+https://github.com/SeleniumHQ/selenium/blob/selenium-4.2.0/java/src/org/openqa/selenium/Keys.java#L28
+
+ref - https://github.com/SeleniumHQ/seleniumhq.github.io/blob/trunk/examples/java/src/test/java/dev/selenium/actions_api/KeysTest.java#L30-L35
+
+Key down
+        new Actions(driver)
+                .keyDown(Keys.SHIFT)
+                .sendKeys("a")
+                .perform();
+
+
+Key up
+
+        new Actions(driver)
+                .keyDown(Keys.SHIFT)
+                .sendKeys("a")
+                .keyUp(Keys.SHIFT)
+                .sendKeys("b")
+                .perform();
+
+
+Send keys
+This is a convenience method in the Actions API that combines keyDown and keyUp commands in one action. Executing this command differs slightly from using the element method, but primarily this gets used when needing to type multiple characters in the middle of other actions.
+
+Active Element
+  new Actions(driver)
+                .sendKeys("abc")
+                .perform();
+
+Designated Element
+        new Actions(driver)
+                .sendKeys(textField, "Selenium!")
+                .perform();
+Copy and Paste
+Here’s an example of using all of the above methods to conduct a copy / paste action. Note that the key to use for this operation will be different depending on if it is a Mac OS or not. This code will end up with the text: SeleniumSelenium!
+
+        Keys cmdCtrl = Platform.getCurrent().is(Platform.MAC) ? Keys.COMMAND : Keys.CONTROL;
+
+        WebElement textField = driver.findElement(By.id("textInput"));
+        new Actions(driver)
+                .sendKeys(textField, "Selenium!")
+                .sendKeys(Keys.ARROW_LEFT)
+                .keyDown(Keys.SHIFT)
+                .sendKeys(Keys.ARROW_UP)
+                .keyUp(Keys.SHIFT)
+                .keyDown(cmdCtrl)
+                .sendKeys("xvv")
+                .keyUp(cmdCtrl)
+                .perform();
+
+        Assertions.assertEquals("SeleniumSelenium!", textField.getAttribute("value"));
+
+In the article about Actions Class in Selenium, we discussed that Selenium provides a feature to handle keyboard events where user gestures can emulate. For example, suppose you search "India" on google search engine. For this, you will type "India " and press the Enter key, so that you see the result queries. 
+
+Say, you want to automate this google search using the Selenium test, how will you simulate pressing the ENTER key using selenium code? 
+The provision of the capability to simulate such keyboard actions is by the keyboard events generated using the Actions class of Selenium WebDriver. 
+
+Here, we will cover the details of all the Keyboard events supported by Selenium. 
+Additionally, we will also see how Actions class fit for the need of simulating the keyboard events in Selenium.
+
+What are keyboard events in Selenium?
+A Keyboard Event describes a user's interaction with the keyboard. When a user presses single or multiple keys, keyboard events generate.
+
+Note:
+Selenium provides various ways to automate these Keyboard Events, a few of which are:
+
+> Automate keyboard events using the sendKeys() method of WebElement class.
+> Automate keyboard events using Robot class.
+> And Automate keyboard events using Actions class.
+
+We already discussed the first two ways of handling the keyboard events using the "sendKeys()" method of WebDriver's WebElement class and "Robot class" in the articles given by corresponding links. 
+
+In this article, we will specifically cover the details of the "Actions " class in Selenium WebDriver.
+
+
+Why is Actions class needed to perform Keyboard actions using Selenium WebDriver?
+When we interact with a web application, there will be various scenarios when the user performs the following actions:
+
+Type in capital/Camel case letters: Wherever user need to type a word or letter in caps, he/she will press the "SHIFT" key and will type the necessary characters, and whatever characters will type while pressing the "SHIFT" key, will type as a capital letter.
+
+Copy & Paste Text: When we need to copy some text from one text box to another, we select the text by pressing "CTRL+A" they copy the text using "CTRL+C" and paste the text in the new text box by simply clicking in the text box and pressing keys "CTRL+V".
+
+These are very common user actions, which we perform on an almost daily basis. Now, as we discussed, Selenium WebDriver provides two ways to send any keyboard event to a web element:
+
+sendKeys() method of WebElement class.
+Actions class
+Now let's try to understand in detail that if we want to automate the scenario as mentioned above of typing the letters in the capital (with SHIFT key pressed ), using the sendKeys() method of the WebElement class.
+
+Consider the following scenario for quickly understanding the behavior:
+
+First, navigate to "https://demoqa.com/text-box."
+Secondly, enter the Full name: "Mr.Peter Haynes".
+Thirdly, enter the Email: "PeterHaynes@toolsqa.com."
+After that, Enter the Current Address: "43 School Lane London EC71 9GO".
+Fifthly, click on the Current Address text box and Copy the Current Address.
+After that, paste the copied address in the Permanent Address text box.
+Finally, validate that the text in the Current Address and Permanent Address is the same.
+
+Let's try to automate the above scenario using the sendKeys() method of the WebElement class:
+
+package automationFramework;
+
+import static org.junit.Assert.assertEquals;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class KeyboardEvents {
+
+	public static void main(String[] args) {
+		
+        // Initialize ChromeDriver
+	// Here we assume that the ChromeDriver path has been set in the System Global variables
+        WebDriver driver=new ChromeDriver();
+       
+        //Navigate to the demo site
+        driver.get("https://demoqa.com/text-box");
+       
+        // Enter the Full Name
+        WebElement fullName = driver.findElement(By.id("userName"));
+        fullName.sendKeys("Mr.Peter Haynes");
+        
+        //Enter the Email
+        WebElement email=driver.findElement(By.id("userEmail"));
+        email.sendKeys("PeterHaynes@toolsqa.com");
+        
+        // Enter the Current Address
+        WebElement currentAddress=driver.findElement(By.id("currentAddress"));
+        currentAddress.sendKeys("43 School Lane London EC71 9GO");
+        
+        // Copy the Current Address
+        currentAddress.sendKeys(Keys.CONTROL);
+        currentAddress.sendKeys("A");
+        currentAddress.sendKeys(Keys.CONTROL);
+        currentAddress.sendKeys("C");
+        
+        //Press the TAB Key to Switch Focus to Permanent Address
+        currentAddress.sendKeys(Keys.TAB);
+        
+        //Paste the Address in the Permanent Address field
+        WebElement permanentAddress=driver.findElement(By.id("permanentAddress"));
+        permanentAddress.sendKeys(Keys.CONTROL);
+        permanentAddress.sendKeys("V");
+        
+        //Compare Text of current Address and Permanent Address
+        assertEquals(currentAddress.getAttribute("value"),permanentAddress.getAttribute("value"));
+        
+        driver.close();
+
+	}
+}
+
+In the above code snippet, though the sendKeys() method of WebElementallows using the Control Key, it cannot do the copy and paste action, as it fails to combine the key sequences.
+
+As we can see from the following screenshot, instead of pasting the content of Current Address in the Permanent Address text field, it just pasted the character "V".
+
+As is clear from the above screenshot, that the text of the Current Address text field did not copy to the Permanent Address text field, so it leads to failure of the assertion when the comparison of the text of these two fields happens. So, when we execute the above test, it fails with the following error message:
+
+So, this is where the sendKeys() method of the WebElement class fails. In other words, it fails when we need to combine special keys such as "SHIFT", "CONTROL", etc. with the different key sequences, which we all know, is a prevalent scenario when we as a user are using any of the web applications.
+
+Therefore, this is where the Actions class of Selenium WebDriver comes into the picture, which provides various methods to specifically handle operations of these meta keyboard keys, which need to press while performing operations on the other keyboard keys. 
+
+Let's see how we can handle such keyboard actions, using the Actions class of Selenium WebDriver.
+
+What is Actions Class in Selenium WebDriver?
+As we discussed above, Selenium WebDriver provides a class named "Actions", which provides various methods that can help in automating and simulating the Keyboard and Mouse actions. 
+
+Let's understand the Keyboard specific methods provided by the Actions Class:
+
+What are the different methods provided by the Actions class for Keyboard Events?
+As highlighted in the above screenshot, the Actions class majorly provide the following three methods for simulating the Keyboard events:
+
+sendKeys(): 
+This method sends a series of keystrokes to a given web element. This method has two overloaded formats:
+
+1. sendKeys(CharSequence... KeysToSend): 
+   The following screenshot shows the syntactical details of this method:
+   This method sends a sequence of keys to a currently focused web element, i.e., if we want to send specific characters to a web element, that element must be first 
+   focussed, then only the mentioned characters will go to that web element.
+
+2. sendKeys(WebElement element, CharSequence... KeysToSend): 
+   This implementation of the sendKeys() method sends a sequence of characters/keys to a specific web element, which passes as the first parameter to the method. This 
+   method first focuses on the target web element and then performs the same action as sendKeys(CharSequence keys).
+
+
+keyDown(): 
+This method simulates a keyboard action when a specific keyboard key needs to press. So, whenever you need to press a key and
+then perform specific other actions, we can use the keyDown() method to keep the key pressed. 
+
+E.g., say a user has to type some characters in Capital. Then to simulate user behavior, where the user presses the SHIFT  key and then presses the set of characters that need to type in Capital. 
+
+This method is also available in the following two overloaded variants:
+
+1. keyDown(CharSequence key):
+   This method presses the specified key on the currently focussed Web Element. This method generally presses the "Modifier keys" such as SHIFT, CTRL, etc. 
+   If you want to press the keyboard key on a specified web element, then that web element first needs to be focussed explicitly,
+   and then this method needs to be invoked.
+
+2. keyDown(WebElement element, CharSequence key):
+   This method first focusses on the web element, which has been passed as a parameter to the method and presses the mentioned key on that Web Element.
+
+keyUp(): 
+We use this method majorly in collaboration with the keyDown() method. 
+The keyboard key which presses using the keyDown() method, doesn't get released automatically, so the same need to be explicitly released using the keyUp() method. 
+
+So, similar to the keyDown() method, this method has two overloaded variants:
+
+1. keyUp(CharSequence key):
+   This method releases the specified key on the currently focussed Web Element. If you want to release the keyboard key on a specified web element, then that web 
+   element first needs to be focussed explicitly, and then this method needs to be invoked.
+
+2. keyUp(WebElement element, CharSequence key): 
+   This method first focusses on the web element, which gets passed as a parameter to the method. Then, it releases the mentioned key on that Web Element.
+
+Example
+ public static void copyPasteUsingActionsClass() throws InterruptedException {
+        WebDriverManager.chromedriver().setup();
+        WebDriver driver = new ChromeDriver();
+        driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+
+
+        //Navigate to the demo site
+        driver.get("https://demoqa.com/text-box");
+
+        //Create object of the Actions class
+        Actions actions = new Actions(driver);
+
+
+        // Enter the Full Name
+        WebElement fullName = driver.findElement(By.id("userName"));
+        fullName.sendKeys("Mr.Peter Haynes");
+
+        //Enter the Email
+        WebElement email=driver.findElement(By.id("userEmail"));
+        email.sendKeys("PeterHaynes@toolsqa.com");
+
+
+        // Enter the Current Address
+        WebElement currentAddress=driver.findElement(By.id("currentAddress"));
+
+        currentAddress.sendKeys("43 School Lane London EC71 9GO");
+
+
+        // Select the Current Address using CTRL + A
+        actions.keyDown(Keys.CONTROL);
+        actions.sendKeys("a");
+        actions.keyUp(Keys.CONTROL);
+        actions.build().perform();
+
+        // Copy the Current Address using CTRL + C
+        actions.keyDown(Keys.CONTROL);
+        actions.sendKeys("c");
+        actions.keyUp(Keys.CONTROL);
+        actions.build().perform();
+
+        //Press the TAB Key to Switch Focus to Permanent Address
+        actions.sendKeys(Keys.TAB);
+        actions.build().perform();
+
+        //Paste the Address in the Permanent Address field using CTRL + V
+        actions.keyDown(Keys.CONTROL);
+        actions.sendKeys("v");
+        actions.keyUp(Keys.CONTROL);
+        actions.build().perform();
+
+
+        //Compare Text of current Address and Permanent Address
+        //WebElement permanentAddress=driver.findElement(By.id("permanentAddress"));
+        //assertEquals(currentAddress.getAttribute("value"),permanentAddress.getAttribute("value"));
 
 
     }
@@ -88,26 +415,52 @@ Test Scenario: Perform Mouse Hover on Live Tab and App Automate Tab on the Brows
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+1. public Actions keyDown(CharSequence key)
+2. public Actions keyDown(WebElement target, CharSequence key)
+3. public Actions keyUp(CharSequence key)
+4. public Actions keyUp(WebElement target, CharSequence key)
+5. public Actions sendKeys(CharSequence... keys)
+6. public Actions sendKeys(WebElement target, CharSequence... keys)
+7. private Actions sendKeysInTicks(CharSequence... keys)
+8. private Actions addKeyAction(CharSequence key, IntConsumer consumer)
+9. public Actions clickAndHold(WebElement target)
+10. public Actions clickAndHold()
+11. public Actions release(WebElement target)
+12. public Actions scrollToElement(WebElement element)
+13. public Actions scrollByAmount(int deltaX, int deltaY)
+14. public Actions scrollFromOrigin(WheelInput.ScrollOrigin scrollOrigin, int deltaX, int deltaY) 
+15. public Actions release()
+16. public Actions click(WebElement target)
+17. public Actions click()
+18. private Actions clickInTicks(PointerInput.MouseButton button)
+19. private Actions focusInTicks(WebElement target)
+20. public Actions doubleClick(WebElement target)
+21. public Actions doubleClick()
+22. public Actions moveToElement(WebElement target)
+23. public Actions moveToElement(WebElement target, int xOffset, int yOffset)
+24. private Actions moveInTicks(WebElement target, int xOffset, int yOffset)
+25. public Actions moveByOffset(int xOffset, int yOffset)
+26. public Actions moveToLocation(int xCoordinate, int yCoordinate)
+27. public Actions contextClick(WebElement target)
+28. public Actions contextClick()
+29. public Actions dragAndDrop(WebElement source, WebElement target)
+30. public Actions dragAndDropBy(WebElement source, int xOffset, int yOffset)
+31. public Actions pause(long pause)
+32. public Actions pause(Duration duration)
+33. public Actions tick(Interaction... actions)
+34. public Actions setActiveKeyboard(String name)
+35. public Actions setActivePointer(PointerInput.Kind kind, String name)
+36. public Actions setActiveWheel(String name)
+37. public KeyInput getActiveKeyboard()
+38. public PointerInput getActivePointer()
+39. public WheelInput getActiveWheel()
+40. public Duration getActionDuration()
+41. public Action build()
+42. public void perform()
+43. private Sequence getSequence(InputSource source)
+44. public Collection<Sequence> getSequences()
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 
