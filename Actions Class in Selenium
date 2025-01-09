@@ -412,6 +412,53 @@ Example
     }
 
 
+How to handle contiguous Keyboard Actions using Actions Class?
+As noticed in the above sections, all the methods of the Actions class briefed above returns an object of the Actions class only.
+
+So, this gives us the flexibility of using the "Chaining of Methods", where we can club all the method invocations specific to one operation in one line of code only.
+
+Let's modify the above-written code to trim it down further. We will use the Chaing of Methods  and will handle the various contiguous Keyboard operations in a single go:
+
+ public static void KeyboardEventsUsingActions() {
+        WebDriverManager.chromedriver().setup();
+        WebDriver driver = new ChromeDriver();
+        driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        //Navigate to the demo site
+        driver.get("https://demoqa.com/text-box");
+        //Create object of the Actions class
+        Actions actions = new Actions(driver);
+        // Enter the Full Name
+        WebElement fullName = driver.findElement(By.id("userName"));
+        fullName.sendKeys("Mr.Peter Haynes");
+        //Enter the Email
+        WebElement email = driver.findElement(By.id("userEmail"));
+        email.sendKeys("PeterHaynes@toolsqa.com");
+        // Enter the Current Address
+        WebElement currentAddress = driver.findElement(By.id("currentAddress"));
+        currentAddress.sendKeys("43 School Lane London EC71 9GO");
+        // Select the Current Address
+        actions.keyDown(Keys.CONTROL).sendKeys("a").keyUp(Keys.CONTROL).build().perform();
+        // Copy the Current Address
+        actions.keyDown(Keys.CONTROL).sendKeys("c").keyUp(Keys.CONTROL).build().perform();
+        //Press the TAB Key to Switch Focus to Permanent Address
+        actions.sendKeys(Keys.TAB).build().perform();
+        //Paste the Address in the Permanent Address field
+        actions.keyDown(Keys.CONTROL).sendKeys("v").keyUp(Keys.CONTROL).build().perform();
+        //Compare Text of current Address and Permanent Address
+        // WebElement permanentAddress=driver.findElement(By.id("permanentAddress"));
+        // assertEquals(currentAddress.getAttribute("value"),permanentAddress.getAttribute("value"));
+
+    }
+
+
+Note- The only difference between the two is that this code looks more compact and easy to read. So, this way, we can combine various methods of the Actions class. Additionally, we can simulate user behavior for different Keyboard actions.
+
+Key Takeaways
+Keyboard events are the events that any of the Keyboard keys generate.
+Additionally, they are a must to simulate the user behavior while automating a web application using Selenium WebDriver
+The Actions Class of Selenium WebDriver provides - sendKeys(),keyUp(),keyDown() methods to handle various keyboard actions
+The modifier key is never released implicitly after the keyDown() method - either we should call the keyUp(theKey) or sendKeys(Keys.NULL) to release the modifier.
 
 
 
@@ -461,11 +508,6 @@ Example
 43. private Sequence getSequence(InputSource source)
 44. public Collection<Sequence> getSequences()
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-
-
-
-
 
 
 
