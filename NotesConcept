@@ -165,7 +165,7 @@ TestNG Interview Questions – A comprehensive list of testNG interview question
 Selenium WebDriver Commands
 
 Explain the below commands-
-ref- http://makeseleniumeasy.com/2021/06/28/webdrivermanager-get-rid-of-compatability-issues-between-browser-and-drivers/
+java concept - Runtime polymorphism, typecasting + Inheritance
 WebDriver driver = new ChromeDriver()
 
 explaination- if we are using ChromeDriver driver = new ChromeDriver(); then 
@@ -187,6 +187,83 @@ explain- method Chaining
 driver.manage().window().maximize
 driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
 driver.navigate().to();
+
+Explaination-
+method Chaining - java
+In Java, method chaining is the chain of methods being called one after another. 
+It is the same as constructor chaining but the only difference is of method and constructor. 
+Method chaining in Java is a common syntax to invoke multiple methods calls in OOPs.
+Each method in chaining returns an object.
+It violates the need for intermediate variables. 
+In other words, the method chaining can be defined as if we have an object and we call methods on that object one after another is called method chaining.
+
+Syntax:
+
+obj.method1().method2().method3();  
+In the above statement, we have an object (obj) and calling method1() then method2(), after that the method3(). So, calling or invoking methods one after another is known as method chaining.
+
+package com.TestSelenium.KT.Sessions;
+
+class Windows {
+
+	public void maximize() {
+		System.out.println("maximize() method is called");
+		System.out.println("browser is maximized");
+
+	}
+
+}
+
+class Options {
+
+	public Windows window() {
+		System.out.println("window() method is called");
+		return new Windows();
+	}
+
+}
+
+public class MethodChainingConcept {
+
+	public Options manage() {
+		System.out.println("manage() method is called");
+		return new Options();
+	}
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+		MethodChainingConcept driver = new MethodChainingConcept();
+		Options option = driver.manage();
+		Windows window = option.window();
+		window.maximize();
+
+		driver.manage().window().maximize();
+
+	}
+
+}
+
+
+There is a method named “manage()” and declared In WebDriver interface. The return type of this method is Options. The Options interface is a subinterface of WebDriver interface. The Options interface has a method “window()” that returns an Interface type Window and that is also a subinterface of WebDriver interface. The Window interface has a method “maximize()” that returns void.
+By following the above coding approach you need to write multiple lines of code as below –
+WebDriver driver= new ChromeDriver();
+Options optnObj= driver.manage();
+Window winObj= optnObj.window();
+winObj.maximize();
+
+And if we follow method chaining then it can be written in fewer lines as –
+
+See complete code below:
+
+WebDriver driver= new ChromeDriver();
+driver.manage().window().maximize();
+
+
+
+
+
+
 
 explain
 driver.get();
