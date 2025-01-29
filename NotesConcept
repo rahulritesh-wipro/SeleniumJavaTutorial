@@ -1,3 +1,167 @@
+refs- https://artoftesting.com/selenium-tutorial#Selenium_WebDriver_with_Java_Tutorial 
+
+Syllabus
+Chapter#1 – Selenium Introduction
+Introduction to Selenium, its different components, advantages, and limitations.
+
+Chapter#2 – Selenium WebDriver Architecture Explained
+A detailed explanation of the Selenium WebDriver architecture and its different components.
+
+Chapter#3 – Selenium WebDriver Setup
+Java, Eclipse, and WebDriver setup with a sample script for validation.
+
+Chapter#4 – Launching Browsers in Selenium
+Commands and sample scripts to launch different browsers.
+
+Chapter#5 – Finding web elements in Selenium
+Locate web elements in Selenium using Firebug or Chrome Developer tool.
+
+Chapter#6 – Selenium WebDriver Basic Commands
+Some of the most commonly used WebDriver commands and their usage.
+
+Chapter#7 – Waits in Selenium
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+CSS and XPath Locator Tutorial
+Learn about waits in Selenium for synchronizing the different user actions. 
+To effectively work with different elements, especially dynamic elements, one should know how to create complex element locators.
+In the below two tutorials, we will study the CSS and XPath locators. 
+These will immensely help us in creating locators for complex web elements.
+
+Chapter#8 – CSS Locators [Must Read]
+Learn how to locate elements using their CSS (Cascading Style Sheets)
+
+Chapter#9 – XPath Locators [Must Read]
+Learn how to locate elements using XPath (XML path)
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+Selenium WebDriver with Java Tutorial
+The below tutorials will help you with code snippets and examples. These will include some of the most commonly performed actions in test automation. Here, we are using Java language with Selenium. If you have no prior experience in Java then you can learn the basics of Java from our Java for Testers series.
+Chapter#10 – Handling Dropdowns in Selenium
+Learn how to interact with dropdown elements.
+
+Chapter#11 – Right Click in Selenium
+Learn how to simulate mouse right-click action.
+
+Chapter#12 – Double Click in Selenium
+Learn how to simulate mouse double-click action.
+
+Chapter#13 – Mouse hover in Selenium
+Learn how to simulate mouse hover action.
+
+Chapter#14 – Drag and Drop in Selenium
+Drag and Drop web elements using Actions class in Selenium.
+
+Chapter#15 – Handling Alerts in Selenium
+Accept – Dismiss alerts or pop-ups in Selenium.
+
+Chapter#16 – Press ENTER, Function and other non-text keys
+Simulate keyboard keypress events for non-text keys like Enter, Ctrl, Alt, etc.
+
+Chapter#17 – Scroll a Webpage in Selenium
+Learn how to scroll up and down to a cordinate or specific element in Selenium.
+
+Chapter#18 – Refresh a webpage in Selenium
+Learn all the ways to refresh a web page in Selenium [5 different ways]
+
+Chapter#19 – Maximize and minimize the Browser
+Selenium commands to maximize and minimize the browser window.
+
+Chapter#20 – Resize the browser window
+Learn the resizing of the browser window in Selenium WebDriver.
+
+Chapter#21 – Navigate Back and Forward in the Browser history
+Navigate back and forward using driver.navigate() command.
+
+Chapter#22 – Keyboard Interactions in Selenium
+Learn about KeyDown, KeyUp, and sendKeys commands.
+
+Chapter#23 – Mouse Interactions in Selenium
+Learn about different mouse interaction commands along with code snippets.
+
+Chapter#24 – Executing JavaScript Code in Selenium
+Learn how to execute Javascript code in Selenium along with a code snippet.
+
+Selenium With TestNG Tutorial
+Selenium is just an automation tool. In order to make validations, pass-fail a test case, create test reports, etc, we need a testing framework. In the below tutorials, we will study one such framework/library – TestNG.
+
+Chapter#25 – TestNG Introduction
+What is TestNG? What are its different features?
+
+Chapter#26 – Selenium WebDriver with TestNG Sample Script
+Creating a basic test in Selenium with TestNG.
+
+Chapter#27 – TestNG Annotations
+Annotations are basically the tags using which TestNG provides different features.
+
+Chapter#28 – Data-Driven Testing in TestNG
+Framework in which the test data drives the automation tests.
+
+Chapter#29 – Running Tests in Parallel using TestNG
+Reduces the overall test execution time.
+
+Chapter#30 – Multi-browser testing using TestNG
+Sample script to run tests with different browsers.
+
+Chapter#31 – Rerun failed tests
+TestNG configuration and sample script to retry the failed tests.
+
+Chapter#32 – Set Test priority in TestNG
+Prioritizing the test cases or setting the order of test case execution.
+
+Chapter#33 – Dependency in TestNG
+Makes execution of one test case dependent on another.
+
+Chapter#34 – Soft Assertion in TestNG
+To continue code script execution even after assertion statement failure.
+
+Chapter#35 – Timeouts in TestNG
+Used in scenarios that need to be failed if not completed in a defined time.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+Selenium Framework
+Here, we will study some of the widely used automation frameworks and design patterns along with sample scripts for their implementations.
+Chapter#36 – Data-Driven Framework
+A data-driven framework using Selenium and TestNG.
+
+Chapter#37 – Page Object Model
+An automation design pattern that helps in creating maintainable test suites.
+
+Chapter#38 – Page Factory
+One of the implementations of the Page Object Model(POM) provided by Selenium.
+
+Chapter#39 – 🔥Complete Selenium with Java Framework🔥
+End-to-end Selenium with Java Hybrid framework with sample test script and Github link.
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+Other Selenium Tutorial
+Meaning of WebDriver driver = new FirefoxDriver(); – Behind the scene working of the command.
+Handling Cookies in Selenium – Learn how to handle cookies in Selenium WebDriver.
+Check if an element is present on a web page – Code snippet to check the element’s presence.
+Wait for the page to load – Code snippet to wait for the page to load before interacting with the web elements.
+Open a new tab in Selenium – Code snippet to open a new tab in Selenium.
+Get all links present on a web page – Script to scrap the links present on a web page.
+Exceptions in Selenium WebDriver – List and explanation of all the Selenium exceptions.
+Screenshot of Failing Tests – Save screenshots of failing tests using Selenium and TestNG
+Desired Capabilities in Selenium – Learn about desired capabilities and their usage.
+Assert and Verify – Know the difference between the two validation mechanisms in testing frameworks.
+Difference b/w driver.close() and driver.quit() – Know the difference between the two ways to close browser windows.
+Difference b/w driver.findElement() and driver.findElements() – Difference between the two along with their usage.
+HtmlUnitDriver – Headless Browser in Selenium – Learn about the Headless browser and its usage.
+Check a checkbox only if it is not already checked – Code snippet to check if a checkbox is checked or not.
+What is Geckodriver? – Learn about Gecko and GeckoDriver and their association with Mozilla Firefox.
+Handling GeckoDriver exception in Selenium – GeckoDriver exception – resolved.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+Selenium Interview Questions
+Top 100 Selenium Interview Questions with Answers – Commonly asked Selenium interview questions from basic to advanced level.
+TestNG Interview Questions – A comprehensive list of testNG interview questions.
+
+
+
 Selenium WebDriver Commands
 
 Explain the below commands-
