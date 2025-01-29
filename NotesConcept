@@ -165,7 +165,23 @@ TestNG Interview Questions – A comprehensive list of testNG interview question
 Selenium WebDriver Commands
 
 Explain the below commands-
+ref- http://makeseleniumeasy.com/2021/06/28/webdrivermanager-get-rid-of-compatability-issues-between-browser-and-drivers/
 WebDriver driver = new ChromeDriver()
+
+explaination- if we are using ChromeDriver driver = new ChromeDriver(); then 
+here we have created a ChromeDriver() instance, this instance will only be able to invoke ChromeDriver class methods which is supported by google chrome
+We should write code in generic way so that it should be compatible with all the supported browsers.
+Here we need to create an instance of other browser again for all the code to work in other browser, which is not standard.
+FirefoxDriver driver =  new FirefoxDriver();
+InternetExplorerDriver driver = new InternetExplorerDriver();
+
+Hence here comes the solution
+WebDriver Interface
+From Selenium perspective, the WebDriver Interface is similar like a agreement which the 3rd party Browser Vendors like firefox, google-chrome, internet-explorer, safari, etc have to adhere and implement the same. This would in-turn help the end-users to use the exposed APIs to write a common code and implement the functionalities across all the available Browsers without any change.
+
+WebDriver driver = new ChromeDriver();
+Using WebDriver driver = new ChromeDriver(); you are creating an instance of the WebDriver interface and casting it to ChromeDriver Class. All the browser drivers like FirefoxDriver, ChromeDriver, InternetExplorerDriver, PhantomJSDriver, SafariDriver etc implemented the WebDriver interface (actually the RemoteWebDriver class implements WebDriver Interface and the Browser Drivers extends RemoteWebDriver). So if we use WebDriver driver, then we can use the already initialized driver (as common object variable) for all browsers we want to automate e.g. Mozilla, Chrome, InternetExplorer, PhantomJS, Safari.
+
 
 explain- method Chaining
 driver.manage().window().maximize
@@ -180,7 +196,8 @@ driver.close();
 driver.quite();
 driver.getCurrentUrl();
 driver.getPageSource();
-driver.getPageTitle();
+driver.getPageTitle
+();
 driver.getWindowHandle();
 driver.getWindowHandles();
 
