@@ -1,0 +1,104 @@
+Method Details - findElement
+Method Signature - WebElement findElement(By by)
+
+> Find the first WebElement using the given method. 
+> This method is affected by the 'implicit wait' times in force at the time of execution. 
+> The findElement(..) invocation will return a matching row, or try again repeatedly until the configured timeout is 
+  reached.
+> findElement should not be used to look for non-present elements, use findElements(By) and assert zero length 
+  response instead.
+
+
+
+Specified by:
+findElement in interface SearchContext
+
+Parameters:
+by - The locating mechanism to use
+
+Returns:
+The first matching element on the current page
+
+Throws:
+NoSuchElementException - If no matching elements are found
+
+Note - findElement(): This method uniquely finds a web element on the web page. In case there is no matching element found, the findElement command throws NoSuchElementException.
+
+But what happens if there are multiple elements matching the criteria provided in the findElement() method? 
+When such a case occurs, the findElement() method returns the first most element within the web page.
+
+
+Example- 
+WebElement elementName = driver.findElement
+                  (By.LocatorStrategy("LocatorValue"));
+
+This command accepts "By" object as the argument and returns a reference of WebElement Object
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+Method Details - findElements
+Method Signature - List<WebElement> findElements(By by)
+
+
+> Find all elements within the current page using the given mechanism. 
+> This method is affected by the 'implicit wait' times in force at the time of execution. 
+> When implicitly waiting, this method will return as soon as there are more than 0 items in the found collection, or 
+  will return an empty list if the timeout is reached.
+
+
+Specified by:
+findElements in interface SearchContext
+
+Parameters:
+by - The locating mechanism to use
+
+Returns:
+A list of all matching WebElements, or an empty list if nothing matches
+
+See Also:
+By WebDriver.Timeouts
+
+Example - 
+The command findElements() returns a list of web elements that match the specified criteria, unlike findElement() which returned a unique element. If there are no matching elements then an empty list returns.
+
+The general syntax of findElements() command in Selenium WebDriver is as below:
+
+List<WebElement> elementName = driver.findElements(By.LocatorStrategy("LocatorValue"));
+Like the findElement() command, this method also accepts the "By " object as the parameter and returns a WebElement  list.
+
+The following program shows the example of the findElements() method in which we provide the By object with tagName.
+
+import java.util.List;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class FindElementByTagName {
+   public static void main(String[] args) {
+	   System.setProperty("webdriver.chrome.driver", "C:/testSelenium/chromedriver.exe");		
+
+	   WebDriver driver = new ChromeDriver();
+
+	   driver.get("https://demoqa.com/text-box/");
+		
+	   // Find elements using tag name
+	   List<WebElement> allInputElements = driver.findElements(By.tagName("input"));
+		
+	   if(allInputElements.size() != 0) 
+	   {
+		   System.out.println(allInputElements.size() + " Elements found by TagName as input \n");
+			
+		   for(WebElement inputElement : allInputElements) 
+		   {
+			   System.out.println(inputElement.getAttribute("placeholder"));
+		   }
+	   }
+   }
+}
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+By Class In Selenium Details-
