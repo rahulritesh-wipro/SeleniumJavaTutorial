@@ -147,15 +147,153 @@ These XPath axes methods are used to find the complex or dynamic elements. Below
 
 For illustrating these XPath axes method, we will use the Guru99 bank demo site.
 
+1) Following
+Selects all elements in the document coming after the current node( )
+Select all nodes that come after the current node
+[ UserID input box is the current node] as shown in the below screen.
+
+Note- following::tagname - will select the mentioned tag present after the current node referenced in the DOM.
+following will not select the node which is coming before the current node referenced in the DOM
+/ - single forward slash will select the child node
+/.. - will select the parent node
+
+Xpath=//*[@type='text']//following::input
+
+examples - https://demo.guru99.com/test/selenium-xpath.html
+
+//ul[@id='java_technologies']/li/a//preceding::li
+
+> Xpath=//*[@type='text']//following::input[1]  - in case of mutilple matching nodes use indexing
 
 
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
+2) Ancestor
+The ancestor axis selects all ancestors element (grandparent, parent, etc.) of the current node as shown in the below screen.
+
+Note- Make sure the tagname we are giving is ancestor i.e, grandparent or parent node.
+
+In the below expression, we are finding ancestors element of the current node(“ENTERPRISE TESTING” node).
+
+Xpath=//*[text()='Enterprise Testing']//ancestor::div
 
 
+Xpath=//*[text()='Enterprise Testing']//ancestor::div[1] - in case of multiple matching nodes use indexing
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+3) Child
+Selects all children elements of the current node (Java) as shown in the below screen.
+
+Note - make sure the mentioned tag name is a child node, alternatively we can use /
+Its not mandatory that it should be immediate child.
+
+Xpath=//*[@id='java_technologies']//child::li
+
+Xpath=//*[@id='java_technologies']//child::li[1]  - multiple matching nodes use indexing
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+4) Preceding
+Select all nodes that come before the current node as shown in the below screen.
+
+In the below expression, it identifies all the input elements before “LOGIN” button that is Userid and password input element.
+
+Xpath=//*[@type='submit']//preceding::input
+
+Xpath=//*[@type='submit']//preceding::input[1]
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+5) Following-sibling
+Select the following siblings of the context node. Siblings are at the same level of the current node as shown in the below screen. It will find the element after the current node.
+
+xpath=//*[@type='submit']//following-sibling::input
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+6) Parent
+Selects the parent of the current node as shown in the below screen.
+
+Xpath=//*[@id='rt-feature']//parent::div
+Xpath=//*[@id='rt-feature']//parent::div[1]
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+7) Self
+Selects the current node or ‘self’ means it indicates the node itself as shown in the below screen.
+One node matching by using “self ” axis. It always finds only one node as it represents self-element.
+Xpath =//*[@type='password']//self::input
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
+8) Descendant
+Selects the descendants of the current node as shown in the below screen.
 
+In the below expression, it identifies all the element descendants to current element ( ‘Main body surround’ frame element) which means down under the node (child node , grandchild node, etc.).
+
+Xpath=//*[@id='rt-feature']//descendant::a
+
+
+Xpath=//*[@id='rt-feature']//descendant::a[1]
+
+
+Summary-
+> Basic xpath
+  Xpath=//input[@type='text']
+  Xpath=//label[@id='message23']
+  Xpath=//input[@value='RESET']
+  Xpath=//*[@class='barone']
+  Xpath=//a[@href='http://demo.guru99.com/']
+  Xpath=//img[@src='//guru99.com/images/home/java.png']
+
+> Indexing  Xpath=(//*[@class='barone'])[1]
+            Xpath=//*[@type='text']//following::input[1]
+> symbol - * , / , /..
+  
+
+> XPath Text() Function  - Xpath=//td[text()='UserID']
+
+> Xpath Starts-with - Xpath=//label[starts-with(@id,'message')]
+
+> Using OR & AND - Xpath=//*[@type='submit' or @name='btnReset']
+  Xpath=//input[@type='submit' and @name='btnLogin']
+
+> Contains()
+   Xpath=//*[contains(@type,'sub')]
+   Xpath=//*[contains(@name,'btn')]
+   Xpath=//*[contains(@id,'message')]
+   Xpath=//*[contains(text(),'here')]
+   Xpath=//*[contains(@href,'guru99.com')]
+   
+
+
+ > xpath axes  - syntax - keyword::tagName
+
+   following   - Xpath=//*[@type='text']//following::input  , Xpath=//*[@type='text']//following::input[1]
+   Note - Selects all elements in the document coming after the current node
+
+   Preceding   - Xpath=//*[@type='submit']//preceding::input
+   Note - Select all nodes that come before the current node
+
+   Ancestor    - Xpath=//*[text()='Enterprise Testing']//ancestor::div
+   Note - The ancestor axis selects all ancestors element (grandparent, parent, etc.) of the current node
+
+   Descendant   - Xpath=//*[@id='rt-feature']//descendant::a
+   Note - Selects the descendants of the current node
+
+   child      - Xpath=//*[@id='java_technologies']//child::li
+   Note - Selects all children elements of the current node
+
+   parent    - Xpath=//*[@id='rt-feature']//parent::div
+   Note - Selects the parent of the current node
+
+   Following-sibling  - xpath=//*[@type='submit']//following-sibling::input
+   Note - Select the following siblings of the context node. Siblings are at the same level of the current node 
+          It will find the element after the current node.
+
+   self   - Xpath =//*[@type='password']//self::input
+   Note - Selects the current node or ‘self’ means it indicates the node itself
 
 
 
