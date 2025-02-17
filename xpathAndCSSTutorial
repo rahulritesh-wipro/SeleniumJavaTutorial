@@ -1,0 +1,243 @@
+XPath Syntax
+Xpath=//tagname[@attribute='value']
+
+// : Select current node.
+Tagname: Tagname of the particular node.
+@: Select attribute.
+Attribute: Attribute name of the node.
+Value: Value of the attribute.
+
+Types of X-path
+There are two types of XPath:
+
+1) Absolute XPath
+
+2) Relative XPath
+
+Absolute XPath
+It is the direct way to find the element, but the disadvantage of the absolute XPath is that if there are any changes made in the path of the element then that XPath gets failed.
+
+The key characteristic of XPath is that it begins with the single forward slash(/) ,which means you can select the element from the root node.
+
+Below is the example of an absolute Xpath expression of the element shown in the below screen.
+
+http://demo.guru99.com/test/selenium-xpath.html
+
+Absolute XPath:
+
+/html/body/div[2]/div[1]/div/h4[1]/b/html[1]/body[1]/div[2]/div[1]/div[1]/h4[1]/b[1]
+
+Relative Xpath
+Relative Xpath starts from the middle of HTML DOM structure.
+It starts with double forward slash (//).
+It can search elements anywhere on the webpage, means no need to write a long xpath and you can start from the middle of HTML DOM structure. 
+Relative Xpath is always preferred as it is not a complete path from the root element.
+
+Relative XPath: //div[@class='featured-box cloumnsize1']//h4[1]//b[1]
+
+What are XPath axes-
+XPath axes search different nodes in XML document from current context node. 
+XPath Axes are the methods used to find dynamic elements, which otherwise not possible by normal XPath method having no ID , Classname, Name, etc.
+Axes methods are used to find those elements, which dynamically change on refresh or any other operations. ,
+There are few axes methods commonly used in Selenium Webdriver like -
+child, /
+parent, /..
+ancestor,
+sibling,
+preceding,
+self, etc.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+1) Basic XPath
+XPath expression select nodes or list of nodes on the basis of attributes like ID , Name, Classname, etc. from the XML document as illustrated below.
+
+Xpath=//input[@name='uid']
+
+Here is a link to access the page http://demo.guru99.com/test/selenium-xpath.html
+Xpath=//input[@type='text']
+Xpath=//label[@id='message23']
+Xpath=//input[@value='RESET']
+Xpath=//*[@class='barone']
+Xpath=//a[@href='http://demo.guru99.com/']
+Xpath=//img[@src='//guru99.com/images/home/java.png']
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+2) Contains()
+
+Contains() is a method used in XPath expression. 
+It is used when the value of any attribute changes dynamically, for example, login information.
+The contain feature has an ability to find the element with partial text.
+
+In this example, we tried to identify the element by just using partial text value of the attribute. In the below XPath expression partial value ‘sub’ is used in place of submit button. It can be observed that the element is found successfully.
+
+Complete value of ‘Type’ is ‘submit’ but using only partial value ‘sub’.
+
+Xpath=//*[contains(@type,'sub')]
+
+Complete value of ‘name’ is ‘btnLogin’ but using only partial value ‘btn’.
+
+Xpath=//*[contains(@name,'btn')]
+
+Similarly, in the below expression, we have taken the ‘id’ as an attribute and ‘message’ as a partial value. This will find 2 elements (‘User-ID must not be blank’ & ‘Password must not be blank’) as its ‘id’ attribute begins with ‘message’.
+
+Xpath=//*[contains(@id,'message')]
+In the below expression, we have taken the “text” of the link as an attribute and ‘here’ as a partial value as shown in the below screenshot. This will find the link (‘here’) as it displays the text ‘here’.
+
+Xpath=//*[contains(text(),'here')]
+Xpath=//*[contains(@href,'guru99.com')]
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+3) Using OR & AND
+In OR expression, two conditions are used, whether 1st condition OR 2nd condition should be true. 
+It is also applicable if any one condition is true or maybe both.
+Means any one condition should be true to find the element.
+
+In the below XPath expression, it identifies the elements whose single or both conditions are true.
+
+Xpath=//*[@type='submit' or @name='btnReset']
+
+Highlighting both elements as “LOGIN ” element having attribute ‘type’ and “RESET” element having attribute ‘name’.
+
+In AND expression, two conditions are used, both conditions should be true to find the element. 
+It fails to find element if any one condition is false.
+
+Xpath=//input[@type='submit' and @name='btnLogin']
+
+In below expression, highlighting ‘LOGIN’ element as it having both attribute ‘type’ and ‘name’.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+4) Xpath Starts-with
+XPath starts-with() is a function used for finding the web element whose attribute value gets changed on refresh or by other dynamic operations on the webpage.
+In this method, the starting text of the attribute is matched to find the element whose attribute value changes dynamically. 
+You can also find elements whose attribute value is static (not changes).
+
+For example -: Suppose the ID of particular element changes dynamically like:
+
+Id=” message12″
+
+Id=” message345″
+
+Id=” message8769″
+
+and so on.. but the initial text is same. In this case, we use Start-with expression.
+
+In the below expression, there are two elements with an id starting “message”(i.e., ‘User-ID must not be blank’ & ‘Password must not be blank’). In below example, XPath finds those element whose ‘ID’ starting with ‘message’.
+
+Xpath=//label[starts-with(@id,'message')]
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+5) XPath Text() Function 
+
+The XPath text() function is a built-in function of selenium webdriver which is used to locate elements based on text of a web element. 
+It helps to find the exact text elements and it locates the elements within the set of text nodes. 
+The elements to be located should be in string form.
+
+In this expression, with text function, we find the element with exact text match as shown below.
+In our case, we find the element with text “UserID”.
+Mostly labels tag
+Xpath=//td[text()='UserID']
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+XPath axes methods
+These XPath axes methods are used to find the complex or dynamic elements. Below we will see some of these methods.
+
+For illustrating these XPath axes method, we will use the Guru99 bank demo site.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
