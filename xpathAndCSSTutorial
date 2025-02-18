@@ -374,56 +374,180 @@ Like //input[@id='user']/attribute::id would get the id attribute's value.
 
 
 
+CSS Tutorial
+CSS selectors are used to locate elements on a webpage, and they can be more efficient than XPath in some cases. 
+
+First, I will explain what CSS selectors are and why they're useful. 
+CSS Selectors are faster and often more readable than XPath.    
+common types: tag name, ID, class, attributes, combinations, child and descendant selectors, pseudo-classes.
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+Tag and ID - 
+Syntax   css=tag#id
+
+tag = the HTML tag of the element being accessed
+# = the hash sign. This should always be present when using a Selenium CSS Selector with ID
+id = the ID of the element being accessed
+-------------------------------------------------------------------------------------------------------------
+
+Tag and class
+Syntax  -  css=tag.class
+
+tag = the HTML tag of the element being accessed
+. = the dot sign. This should always be present when using a CSS Selector with class
+class = the class of the element being accessed
+-----------------------------------------------------------------------------------------------------------------------
+
+Tag and attribute
+Syntax -  css=tag[attribute=value]
+
+tag = the HTML tag of the element being accessed
+[ and ] = square brackets within which a specific attribute and its corresponding value will be placed
+attribute = the attribute to be used. It is advisable to use an attribute that is unique to the element such as a name or ID.
+value = the corresponding value of the chosen attribute.
+-----------------------------------------------------------------------------------------------------------------
+Tag, class, and attribute
+Syntax -  css=tag.class[attribute=value]
+
+tag = the HTML tag of the element being accessed
+. = the dot sign. This should always be present when using a CSS Selector with class
+class = the class of the element being accessed
+[ and ] = square brackets within which a specific attribute and its corresponding value will be placed
+attribute = the attribute to be used. It is advisable to use an attribute that is unique to the element such as a name or ID.
+value = the corresponding value of the chosen attribute.
+
+----------------------------------------------------------------------------------------------------------------------
+Inner text
+Syntax - css=tag:contains("inner text")
+
+tag = the HTML tag of the element being accessed
+inner text = the inner text of the element
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+CSS Selectors in Selenium WebDriver (Java)
+CSS (Cascading Style Sheets) selectors are a powerful and efficient way to locate elements in Selenium.
+They are often faster than XPath and work seamlessly with dynamic web pages. 
+Below is a detailed explanation of CSS selectors with Java examples:
+      
+1. Basic CSS Selectors
+a. Tag Name
+Purpose: Select elements by their HTML tag.
+Syntax: tag
+Example:
+// Locate all <input> tags
+List<WebElement> inputs = driver.findElements(By.cssSelector("input"));
+
+
+b. ID
+Purpose: Select an element by its id attribute.
+Syntax: #id
+Example:
+// Find element with id="username"
+WebElement username = driver.findElement(By.cssSelector("#username"));
+
+c. Class
+Purpose: Select elements by their class attribute.
+Syntax: .class
+Example:
+// Find elements with class="btn-primary"
+List<WebElement> buttons = driver.findElements(By.cssSelector(".btn-primary"));
+
+
+2. Attribute Selectors
+
+a. Exact Attribute Match
+Purpose: Select elements with a specific attribute value.
+Syntax: [attribute='value']
+Example:
+// Find input with type="submit"
+WebElement submitBtn = driver.findElement(By.cssSelector("input[type='submit']"));
 
 
 
+b. Partial Attribute Match
+Syntax:
+[attribute^='prefix'] (starts with)
+[attribute$='suffix'] (ends with)
+[attribute*='substring'] (contains)
+
+ex-
+// Find element with id starting with "user"
+WebElement userField = driver.findElement(By.cssSelector("[id^='user']"));
+
+// Find link with href ending with ".pdf"
+WebElement pdfLink = driver.findElement(By.cssSelector("a[href$='.pdf']"));
 
 
+3. Combinators
+a. Descendant
+Purpose: Select nested elements.
+Syntax: ancestor descendant
+Example:
+
+// Find all <li> elements inside a <ul> with class="menu"
+List<WebElement> menuItems = driver.findElements(By.cssSelector("ul.menu li"));
 
 
+b. Child
+Purpose: Select direct children.
+Syntax: parent > child
+Example:
+// Find direct <td> children of a <tr>
+List<WebElement> cells = driver.findElements(By.cssSelector("tr > td"));
 
 
+c. Sibling
+Syntax:
+element + sibling (adjacent sibling)
+element ~ sibling (general sibling)
+Example:
+// Find the <p> immediately after an <h2>
+WebElement paraAfterHeader = driver.findElement(By.cssSelector("h2 + p"));
+
+4. Pseudo-Classes
+a. :nth-child(n)
+Purpose: Select the nth child element.
+Example:
+// Select the 3rd row in a table
+WebElement thirdRow = driver.findElement(By.cssSelector("tr:nth-child(3)"));
 
 
+b. :not(selector)
+Purpose: Exclude elements matching a selector.
+Example:
+// Find all inputs except those of type="hidden"
+List<WebElement> visibleInputs = driver.findElements(By.cssSelector("input:not([type='hidden'])"));
 
 
+5. Grouping Selectors
+Purpose: Combine multiple selectors.
+Syntax: selector1, selector2
+Example:
+// Find all buttons and links with class="cta"
+List<WebElement> ctas = driver.findElements(By.cssSelector("button.cta, a.cta"));
 
 
+Best Practices
+Prioritize IDs/Classes: Use #id or .class for simplicity and speed.
+Avoid Overly Complex Selectors: Keep them readable and maintainable.
+Test in Browser: Use browser DevTools (F12) to test selectors before coding.
+Escape Special Characters: Use \\ to escape characters like . or : in IDs/classes
+// Example: Escaping a class with a dot
+WebElement element = driver.findElement(By.cssSelector(".login\\.form"));
 
 
+Comparison with XPath
+Pros of CSS:
+Faster in most browsers.
+Concise syntax for classes/IDs.
+Cons of CSS:
+Cannot traverse upwards (e.g., to parent nodes).
+Limited text-matching (use XPath for text-based searches).
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Example: Complex CSS Selector
+// Find a submit button inside a form with id="loginForm", where the button has class="submit" and type="submit"
+WebElement submit = driver.findElement(
+    By.cssSelector("form#loginForm > button.submit[type='submit']")
+);
 
 
 
