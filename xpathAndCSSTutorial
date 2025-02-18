@@ -295,10 +295,82 @@ Summary-
    self   - Xpath =//*[@type='password']//self::input
    Note - Selects the current node or ‘self’ means it indicates the node itself
 
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+Lets see what AI says about it------------
 
+prompt - explain xpath axes methods with respect to its usage in Selenium java
 
+xpath axes methods are used to navigate the XML document structure, which is essential when locating elements in Selenium, especially when elements don't have unique IDs or classes.
+First, I should list the different axes. The main ones are 
+ancestor,
+parent,
+child,
+descendant,
+following,
+preceding,
+sibling axes like following-sibling and preceding-sibling,
+self, 
+attribute, and normalize-space() - provide the text.
 
+For each axis, I need to explain what it does, give an example XPath expression, and maybe a Java code snippet showing how it's used with Selenium.
+-------------------------------------------------------------------------------------------------------------------
+Parent-
+Selects the parent of the current node.
+Let me start with the parent axis.
+The parent axis selects the parent of the current node. 
+So if I have an element like a span inside a div, using parent::div would get the div. 
 
+Note- But wait, in XPath, you can do parent::* to get any parent, or specify the tag.
+--------------------------------------------------------------------------------------------------------------------
+child-
+Selects direct children of the current node.
+Then there's child. Child is straightforward; 
+it selects all children of the current node. 
+But in Selenium, sometimes elements are nested, and using child can help narrow down. 
+For example, //div/child::span would get all span children of a div.
+----------------------------------------------------------------------------------------------------------------------
+Ancestor and descendant-
+Selects all ancestors (parent, grandparent, etc.) of the current node.
+Selects all descendants (children, grandchildren, etc.) of the current node.
+Ancestor and descendant are broader. 
+Ancestor goes up the hierarchy, any level, while descendant goes down. 
+So ancestor::form would find any form ancestors of the current node. 
+Descendant is useful when you have a container and want to find elements inside it, even if they are deeply nested.
+----------------------------------------------------------------------------------------------------------------------
+Following and preceding- 
+
+following Axis - Selects all nodes that appear after the current node in the document.
+preceding Axis - Selects all nodes that appear before the current node.
+
+Following and preceding axes are about the document order.
+Following selects everything after the current node, 
+preceding everything before. 
+So following::input would get all input elements that come after the current node.
+preceding::input would get all input elements that come before the current node.
+----------------------------------------------------------------------------------------------------------------------
+Following-sibling and preceding-sibling -
+
+following-sibling & preceding-sibling Axes
+Purpose: Select siblings (nodes at the same hierarchy level).
+
+Sibling axes are important. Following-sibling and preceding-sibling select siblings on the same level. 
+For example, if you have a list of items, 
+following-sibling::li would get the next list items after the current one.
+preceding-sibling::li would get the next list items before the current one.
+----------------------------------------------------------------------------------------------------------------------
+self
+The self axis refers to the current node itself. 
+Maybe useful in combination with other expressions.
+-----------------------------------------------------------------------------------------------------------------------
+attribute axis
+attribute Axis
+Purpose: Access attributes of an element.
+WebElement link = driver.findElement(By.xpath("//a[text()='Click']"));
+String url = link.findElement(By.xpath("attribute::href")).getText();
+Then there's the attribute axis, which is used to select attributes of the current node. 
+Like //input[@id='user']/attribute::id would get the id attribute's value.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 
