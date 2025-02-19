@@ -1,0 +1,183 @@
+package KTSessions;
+
+public class HandleBootstrapDropdown {
+
+    public static void main(String[] args) {
+
+    }
+}
+
+
+/*
+First we have to click on menu item then only dropdown items will display
+driver.findElement(By.xpath(".//*[@id='menu1']")).click();
+
+adding 2 seconds wait to avoid Sync issue
+Thread.sleep(2000);
+
+Dropdown items are coming in <a> tag so below xpath will get all
+elements and findElements will return list of WebElements
+
+List<WebElement> list = driver.findElementsByXPath("//ul[@class='dropdown-menu']//li/a");
+We are using enhanced for loop to get the elements
+for (WebElement ele : list)
+
+       {
+
+          // for every elements it will print the name using innerHTML
+
+          System.out.println("Values " + ele.getAttribute("innerHTML"));
+
+
+
+          // Here we will verify if link (item) is equal to Java Script
+
+          if (ele.getAttribute("innerHTML").contains("JavaScript")) {
+
+             // if yes then click on link (iteam)
+
+             ele.click();
+
+             // break the loop or come out of loop
+
+             break;
+
+          }
+
+       }
+
+       // here you can write rest piece of code
+
+   }
+
+}
+You can also select the values directly using xpath  and CSS
+ but that approach is not recommended because direct XPath might change.
+
+In the above approach, we can pass a parameter directly so based on test data
+it will select the values from the list.
+*/
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/*
+prompt - how to iterate through all elements in a List using an Iterator in Java.
+An Iterator is an interface that provides methods to traverse a collection.
+
+ The main methods are hasNext(), next(), and remove().
+
+ So, the steps would be: get the Iterator from the List,
+  loop using hasNext(), and call next() to get each element.
+
+Wait, the user mentioned a List. So, they might be using something like ArrayList or LinkedList.
+The process is the same for any List implementation.
+The list.iterator() method returns the Iterator.
+
+create a List and add elements. For example, a List of Strings.
+ Then, obtain the Iterator from the list.
+
+ Next, the loop.
+ Using a while loop makes sense here because we check if there's a next element with hasNext().
+ Inside the loop, next() gives the current element.
+ each call to next() moves the iterator forward.
+
+  create the list,
+   add elements,
+   get the iterator, then loop.
+   possible exceptions, like NoSuchElementException if next() is called when there are no more elements.
+import the necessary classes: java.util.List, ArrayList, Iterator.
+
+What about concurrent modification?
+If the list is modified while iterating, it can throw a ConcurrentModificationException.
+
+
+
+To iterate through all elements in a List using an Iterator in Java,
+follow these steps. I'll explain with a code example and detailed comments:
+
+
+
+
+
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Iterator;
+
+public class ListIteratorExample {
+    public static void main(String[] args) {
+        // 1. Create a List (e.g., ArrayList) and add elements
+        List<String> fruits = new ArrayList<>();
+        fruits.add("Apple");
+        fruits.add("Banana");
+        fruits.add("Cherry");
+
+        // 2. Get an Iterator from the List
+        Iterator<String> iterator = fruits.iterator();
+
+        // 3. Iterate through the List using the Iterator
+        while (iterator.hasNext()) { // Check if there's a next element
+            String fruit = iterator.next(); // Get the current element
+            System.out.println(fruit);
+        }
+    }
+}
+
+
+Key Components Explained
+1. Create a List and Add Elements
+Use ArrayList (or any List implementation) to store elements.
+Add elements using add()
+
+List<String> fruits = new ArrayList<>();
+fruits.add("Apple");
+fruits.add("Banana");
+
+2. Obtain an Iterator
+Use the iterator() method of the List interface to get an Iterator:
+Iterator<String> iterator = fruits.iterator();
+
+3. Iterate Using hasNext() and next()
+hasNext(): Returns true if there are more elements to process.
+next(): Returns the next element in the iteration.
+
+while (iterator.hasNext()) {
+    String fruit = iterator.next();
+    System.out.println(fruit);
+}
+
+Notes-
+Exhausting the Iterator:
+
+Once the loop completes, the iterator is "exhausted." To iterate again, obtain a new iterator:
+iterator = fruits.iterator(); // Reset the iterator
+
+Concurrent Modification:
+
+If you modify the List (e.g., add/remove elements) while iterating, it throws a ConcurrentModificationException.
+Use the iterator's remove() method to safely remove elements during iteration:
+
+while (iterator.hasNext()) {
+    String fruit = iterator.next();
+    if (fruit.equals("Banana")) {
+        iterator.remove(); // Safely remove the current element
+    }
+}
+
+Alternatives to Iterator:
+
+Enhanced For-Loop (uses an iterator internally):
+
+for (String fruit : fruits) {
+    System.out.println(fruit);
+}
+
+Java 8+ For-Each
+fruits.forEach(fruit -> System.out.println(fruit));
+
+When to Use Iterator
+When you need to remove elements during iteration (using iterator.remove()).
+When working with older Java versions (pre-Java 5) that don’t support enhanced for-loops.
+
+This approach ensures safe and efficient traversal of List elements in Java.
+
+*/
