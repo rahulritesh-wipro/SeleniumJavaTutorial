@@ -1,0 +1,76 @@
+package KTSessions;
+
+import io.github.bonigarcia.wdm.WebDriverManager;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+import java.time.Duration;
+
+public class HandleBasicDropDown {
+
+    public static WebDriver driver;
+    public static void main(String[] args) {
+        WebDriverManager.chromedriver().setup();
+        driver = new ChromeDriver();
+        driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+        driver.get("https://demo.guru99.com/test/newtours/register.php");
+
+    }
+}
+
+/*
+sometimes while testing a dropdown we need to select a value from dropdown
+also sometimes we need to verify if all the values are correct
+order of the values of the dropdown
+
+Create an object of Select class and pass the select tag webelement as argument ot the Select constructor
+WebElement month_dropdown=driver.findElement(By.id(“month”));
+
+Select month=new Select(month_dropdown);
+
+Explanation- Here selectbyIndex(int) is method which accept integer as argument so depends on index it will select values.
+ If you give index as 4, it will select 5th value.
+
+Note- Index will start from 0.
+
+month.selectByValue(“5”);
+Explanation- Here selectByValue(String) is a method which accepts values it means whatever value you have in your dropdown.
+
+month.selectByVisibleText("Aug");
+Explanation- We can also select the value from the text as well.
+This is very straight forward that whatever text we are passing it simply select that value.
+
+Note- This is case sensitive it means if I pass Aug and dropdown has aug then
+Selenium will not be able to select value and it will fail your program so make sure Text which you are passing is correct.
+
+Get Selected option from Dropdown.
+WebElement month_dropdown=driver.findElement(By.id("month"));
+Select month=new Select(month_dropdown);
+WebElement first_value=month.getFirstSelectedOption();
+String value=first_value.getText();
+
+Explanation- Here getFirstSelectedOption() will return the first selected option
+ and will return you the WebElement then you can use getText() method to extract text
+ and validate the same based on your requirement
+
+Get All option from dropdown
+WebElement month_dropdown=driver.findElement(By.id("month"));
+Select month=new Select(month_dropdown);
+List<WebElement> dropdown=month.getOptions();
+
+ for(int i=0;i<dropdown.size();i++){
+
+ String drop_down_values=dropdown.get(i).getText();
+
+ System.out.println("dropdown values are "+drop_down_values);
+
+ }
+
+Explanation- getOptions() is a method of Select class which will return List of WebElement
+ then we can iterate using for loop or iterator and using getText() method we can extract values.
+
+show you can handle dropdown which does not have any Select class as well.
+
+
+*/
