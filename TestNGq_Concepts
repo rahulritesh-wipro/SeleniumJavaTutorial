@@ -1,0 +1,669 @@
+package KTSessions;
+
+public class TestNGTutorial {
+}
+
+
+/*
+TestNG - Test Next Generation - for java
+TestNG is a testing framework developed in the lines of JUnit and NUnit,
+however it introduces some new functionalities that make it more powerful and easier to use.
+TestNG is designed to cover all categories of tests:
+unit, functional, end-to-end, integration, etc., and it requires JDK 5 or higher.
+
+
+
+Its is a  Testing framework / lib which helps in test design / maintainence and execution / reporting
+
+Steps to Install TestNG -
+ <!-- https://mvnrepository.com/artifact/org.testng/testng -->
+    <dependency>
+      <groupId>org.testng</groupId>
+      <artifactId>testng</artifactId>
+      <version>7.10.2</version>
+      <scope>test</scope>
+    </dependency>
+TestNG is available as a plugin for Eclipse and Intellij(by default available
+In Eclipse install through marketplace with zip file and TestNg lib from configure build path
+
+1. Open eclipse
+2. Help
+3. Eclipse Market Place
+4. Eclipse for TestNG - install
+5. confirm & accept license
+6. Ok popup during installation
+
+Installation throgh testNG downloaded zip file
+
+Steps to Add TestNG to the project-
+ context click > build path > Lib > click on Add Lib > choose testNG > NEXT > FINISH > OK
+
+ *******************************************************************************************************
+ Executing the program using testNG-
+ 1. If a java class is having a main method we have to execute using JVM
+ 2. If a class is having @Test annotation such class is called as TestNG class and will be executed by TestNG
+
+ class with main method or class with methods having @Test Annotation
+
+ Property of @Test Annotation-
+ 1. This @Test annotation is always attached with a method.
+ 2. The method can be static or non-static having @Test annotation.
+ 3. @Test annotation method should be public
+ 4. TestNG/@Test annotation method should not return any data.
+ 5. TestNG will always execute the methods with @Test annotation
+
+
+Creating TestNG class-
+
+Approach 1- create a java class and add @Test annotation in the method
+
+Approach 2- ContextClick on a package
+            Go to TestNG > Create TestNG Class
+            class name > finish
+
+ Automatically java class will be created with @Test annotation
+
+ Steps to execute TestNG class
+ 1. ContextClick on a TestNG class > Run As > Choose TestNG test.
+ 2. After the execution automatically it generates 3 different types of reports
+    A> Eclipse console Report
+    B> TestNG console Report
+    C> Emailable/HTML Report
+
+    Note - Refresh the project folder and check/expand test-output folder
+
+package TestNGConcepts;
+
+import org.testng.annotations.Test;
+
+public class DAY1_TestNG {
+
+    @Test
+    public void openTheApplication() {
+        System.out.println("1. user open the application");
+    }
+
+    @Test
+    public void loginToTheApplication() {
+        System.out.println("2. user logs into the application");
+    }
+
+    public void userLandedOnAppHomePage() {
+        System.out.println("3. user is on app home page");
+    }
+
+}
+
+
+output-
+2. user logs into the application
+1. user open the application
+
+TestNG will always execute a method which is attached with @Test annotation.
+Note- if a method doesn't have any annotation then it will be ignored by TestNG
+
+TestNG suite file -
+
+A TestNG suite XML file is like a recipe or a to-do list for your test automation.
+It tells the TestNG framework which tests to run, how to run them, and in what order.
+Here's a simple breakdown:
+
+What is it?
+It’s an XML configuration file (e.g., testng.xml) that acts as a control center for your tests.
+Think of it as a "map" that guides TestNG to your test classes/methods and defines rules for execution.
+
+Purpose-
+Group tests into logical sets (e.g., "LoginTests", "PaymentTests").
+Run tests from multiple classes/packages in one go.
+
+Customize Execution:
+Decide the order of tests (e.g., run "login" tests before "checkout" tests).
+Include/exclude specific tests or groups (e.g., skip "slow" tests during quick checks).
+Pass parameters (e.g., URLs, usernames) to tests.
+
+Save Time:
+Avoid manually running each test one by one.
+Run subsets of tests (e.g., only "smoke tests" for a quick sanity check).
+
+
+
+TestNG uses XML files to configure test runs.
+ it's similar to how Ant or Maven use XML for configuration.
+ So, the XML file probably defines which tests to run, in what order, maybe parameters, groups etc.
+
+ Imagine you have a bunch of tests (like different tasks) you need to run.
+  Instead of running each one manually, you write a to-do list that tells the computer
+  which tests to run, in what order, and maybe some settings.
+ That to-do list is the XML file. It organizes the tests so you can run them all together or in specific groups.
+
+what problem does this solve?
+If you have many test classes, running each one individually would be time-consuming.
+Also, maybe you want to group certain tests together, like all login-related tests, or exclude some tests.
+The XML file lets you do that without changing the test code.
+It's a way to manage test execution without hardcoding test suites in the code.
+
+So the XML file is a configuration file that specifies which tests to
+ run, their order, parameters, groups, dependencies, etc.
+ The purpose is to provide flexibility in test execution.
+ It solves the problem of managing and organizing tests,
+ especially when you have a large suite, by allowing you to define different test scenarios in a single file.
+
+ Note - We can have as many TestNG suite xml files in our framework.
+
+TestNG suite XML file. It starts with a <suite> tag, which contains <test> tags.
+ Each <test> can have <classes> or <packages> to include specific test classes or packages.
+ There are also <groups> for including or excluding certain groups, parameters, and listeners.
+ So the XML file is a way to aggregate and configure multiple tests and their settings.
+
+What Problem Does It Solve?
+Imagine you have 100 test cases scattered across 20 classes. Without a suite file:
+
+You’d have to run each test manually or write complex code to manage them.
+Changing test groups or parameters would require editing code.
+The XML file solves this by:
+
+Letting you define test workflows in one place (no code changes needed).
+Making it easy to reuse the same tests in different configurations (e.g., run "chrome" tests today, "firefox" tomorrow).
+Example
+Here’s a simple testng.xml file:
+
+Example-
+
+<suite name="SmokeTestSuite">
+  <test name="LoginTests">
+    <classes>
+      <class name="com.tests.LoginTest"/>
+    </classes>
+  </test>
+  <test name="CheckoutTests">
+    <classes>
+      <class name="com.tests.CheckoutTest"/>
+    </classes>
+  </test>
+</suite>
+
+This runs LoginTest first, then CheckoutTest, as part of a "SmokeTestSuite".
+It is flexible, centralized way to manage and run tests without hardcoding logic into your test scripts.
+
+Flow diagram
+
+   TestNG
+
+    TestNGSuit.xml  -----defaultSuite
+
+    TestNG class
+
+    @Test
+
+Steps to create TestNG suite file
+1. Right-click on the package which contain TestNG classes
+2. Go to TestNG and click on "Convert To TestNG"
+3. provide suite file name > Ok > Finish
+
+Automatically a suite file is added below project directory.
+
+Steps to execute TestNG suite
+1. Right-click on the TestNG suite file (xml)
+2. Run As > testNG test
+Note- Automatically TestNG will execute all the testNG classes and generate the report in output folder
+
+Assertions in testNG
+As of now we have used conditional statements for verification
+
+
+ public void verifyPageTitle() {
+        WebDriverManager.chromedriver().setup();
+        WebDriver driver = new ChromeDriver();
+        driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+        driver.get("https://www.google.com");
+
+        String actualTitle = driver.getTitle();
+        String expectedTitle = "Google";
+
+        if (actualTitle.equals(expectedTitle)) {
+            System.out.println("Test Passed");
+        } else {
+            System.out.println("Test Failed");
+        }
+
+    }
+
+
+Disadvantage of using conditional statements for verification-
+Here in the above program even if the actual and expected results doesn't match,
+still TestNG will pass the test. However, this can be handled using Assertions in TestNG
+using Assert class.
+
+Script Validation using Assertions-
+TestNG's Assert class has various methods to check conditions in tests.
+it's a fully implemented class with static assert methods.
+The main ones are -
+assertEquals, assertNotEquals,
+assertTrue, assertFalse,
+assertNull, assertNotNull,
+assertSame, assertNotSame,
+and fail.
+
+Note - all these methods are static and imported from org.testng.Assert.
+
+1. assertEquals: Compares expected and actual values.
+Example: Assert.assertEquals(5, calculator.add(2,3)); If add returns 5, passes; else fails.
+assertEquals checks if two values are equal. There are overloaded methods for different data types.
+For example, assertEquals(String actual, String expected)
+would check if the actual string matches the expected one.
+
+assertEquals
+Purpose: Compares if the actual value matches the expected value.
+Overloads: Supports all data types (primitives, objects, arrays) and includes an optional failure message.
+Example:
+Assert.assertEquals(5, calculator.add(2, 3));
+// Passes if add(2,3) returns 5.
+Assert.assertEquals("Status mismatch", "SUCCESS", response.getStatus());
+// Includes a custom message on failure.
+
+2. assertNotEquals: Opposite of assertEquals.
+Example: Assert.assertNotEquals(0, list.size()); Fails if size is 0.
+
+Then there's assertNotEquals, which is the opposite—it checks that two values aren't equal.
+That's useful when you want to ensure a change has occurred.
+assertNotEquals
+Purpose: Verifies that the actual value does not equal the expected value.
+Example:
+Assert.assertNotEquals(0, list.size());
+// Fails if the list size is 0.
+
+
+3. assertTrue: Checks condition is true. - positive testing
+ Example: Assert.assertTrue(user.isAuthenticated()); Passes if authenticated.
+assertTrue
+Purpose: Checks if a boolean condition is true.
+Example:
+Assert.assertTrue(user.isAuthenticated());
+// Passes if the user is authenticated.
+Assert.assertTrue("Element not visible", element.isDisplayed());
+// Adds a message if the assertion fails.
+
+
+4. assertFalse: Checks condition is false. - negative testing
+Example: Assert.assertFalse(page.isLoading()); Passes if not loading.
+assertFalse
+Purpose: Checks if a boolean condition is false.
+Example:
+
+Assert.assertFalse(account.hasOverdraft());
+// Passes if the account has no overdraft.
+
+
+Note - Next, assertTrue and assertFalse.
+These take a boolean condition.
+So, assertTrue would pass if the condition is true, and
+ assertFalse if it's false.
+  For example, checking if a user is logged in might use assertTrue,
+   while checking that a user isn't logged out could use assertFalse.
+
+
+5. assertNull: Checks object is null.
+Example: Assert.assertNull(cache.get("key")); Passes if returns null.
+
+assertNull
+Purpose: Validates that an object is null.
+Example:
+
+Assert.assertNull(cache.get("invalid_key"));
+// Passes if no value exists for the key.
+
+
+
+6. assertNotNull: Checks object isn't null.
+Example: Assert.assertNotNull(response.getBody()); Passes if body exists.
+
+ assertNotNull
+Purpose: Validates that an object is not null.
+Example:
+Assert.assertNotNull(database.getConnection());
+// Passes if the connection exists.
+
+
+Note - Then there's assertNull and assertNotNull.
+These check if an object is null or not null.
+If a method is supposed to return an object, you'd use assertNotNull to verify it actually returns something.
+ Conversely, if a method should return null under certain conditions, assertNull would be appropriate.
+
+7. assertSame: Checks if two objects refer to the same instance.
+ Example: Assert.assertSame(obj1, obj2); Passes if same.
+
+ assertSame
+Purpose: Checks if two objects refer to the same instance (using == comparison).
+Example:
+
+Assert.assertSame(singletonInstance, Singleton.getInstance());
+// Passes if both references point to the same object.
+
+8. assertNotSame: Checks objects are different instances.
+Example: Assert.assertNotSame(clonedObj, originalObj); Passes if different.
+
+assertNotSame
+Purpose: Checks if two objects are different instances.
+Example:
+Assert.assertNotSame(original, clonedObject);
+// Passes if they are separate instances.
+
+
+
+Note - assertSame and assertNotSame check for object identity.
+Unlike assertEquals, which uses the equals() method,
+assertSame checks if two references point to the exact same object.
+For example, if you have two variables that should reference the same instance, assertSame would confirm that.
+ Conversely, assertNotSame ensures they are different instances.
+
+9. fail(): Explicitly fails the test. Example: if an exception isn't thrown, call fail().
+The fail() method is used to explicitly fail a test.
+Maybe if a test reaches a certain point that it shouldn't, like an exception wasn't thrown,
+ you call fail() to mark it as failed.
+
+fail()
+Purpose: Explicitly fails the test. Often used to mark incomplete tests or unexpected flow.
+Example:
+
+try {
+    riskyOperation();
+    Assert.fail("Expected exception was not thrown!");
+} catch (ExpectedException e) {
+    // Test passes if the exception is caught.
+}
+
+
+
+Key Notes:
+1. Static Imports: Use import static org.testng.Assert.*; to avoid prefixing Assert. in tests.
+2. Failure Behavior: These are "hard" assertions; the test stops immediately on failure.
+3. Soft Assertions: For collecting multiple failures, use SoftAssert (a separate TestNG class).
+4. Messages: All assertions support an optional first parameter for a custom failure message (e.g., assertEquals("Custom message", actual, expected)).
+
+import static org.testng.Assert.*;
+
+public class TestCases {
+    @Test
+    public void testLogin() {
+        User user = new User("admin", "password");
+        assertTrue(user.login(), "Login failed");
+        assertEquals(user.getRole(), "ADMIN", "Role mismatch");
+        assertNotNull(user.getSessionId());
+    }
+}
+
+This example checks if a user logs in successfully, verifies their role, and ensures a session ID is generated.
+
+
+Explain Soft Assertions with examples -
+
+ Soft Assertions are different from regular (hard) assertions because they don't stop the test immediately
+  when a failure occurs.
+
+  Instead, they collect all the failures and report them at the end.
+  This is useful when you want to check multiple conditions in a test and see all the failures at once.
+
+Soft Assertions in TestNG allow you to continue executing a test even after an assertion fails.
+Unlike "hard" assertions (from the Assert class), which stop the test immediately on failure,
+soft assertions collect all failures and report them at the end of the test.
+This is useful for validating multiple conditions in a single test method.
+
+
+Key Class: SoftAssert
+Usage: Create an instance of SoftAssert, perform assertions using its methods,
+and call assertAll() at the end to trigger failure reporting.
+Advantage: Avoids stopping the test prematurely, allowing you to see all failures in one run.
+
+import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
+
+public class SoftAssertExample {
+
+    @Test
+    public void testUserProfile() {
+        SoftAssert softAssert = new SoftAssert();
+        User user = getUserFromDatabase(); // Assume this returns a User object
+
+        // Check multiple properties
+        softAssert.assertEquals(user.getName(), "Alice", "Name mismatch");
+        softAssert.assertEquals(user.getEmail(), "alice@example.com", "Email mismatch");
+        softAssert.assertTrue(user.getAge() > 18, "Age must be over 18");
+
+        // Mandatory: Report all failures at the end
+        softAssert.assertAll();
+    }
+}
+
+Explanation:
+
+If the user’s name is "Bob", email is "bob@example.com", and age is 20:
+All 3 assertions fail, but the test continues running.
+assertAll() throws an exception listing all failures at the end.
+
+
+Example 2: Form Validation
+@Test
+public void testRegistrationForm() {
+    SoftAssert softAssert = new SoftAssert();
+    FormResponse response = submitForm("", "invalid-email", "123"); // Empty name, invalid email, short password
+
+    softAssert.assertFalse(response.hasError(), "Form should not have errors"); // Fails
+    softAssert.assertEquals(response.getFieldError("name"), "Name is required", "Name error missing"); // Fails
+    softAssert.assertEquals(response.getFieldError("email"), "Invalid email", "Email error missing"); // Passes
+    softAssert.assertEquals(response.getFieldError("password"), "Password too short", "Password error missing"); // Fails
+
+    softAssert.assertAll(); // Reports 3 failures
+}
+
+
+java.lang.AssertionError: The following asserts failed:
+1. Form should not have errors expected [false] but found [true],
+2. Name error missing expected [Name is required] but found [null],
+3. Password error missing expected [Password too short] but found [null]
+
+
+Key Notes:
+assertAll() is Mandatory:
+
+Forgetting to call assertAll() will not report any failures, making the test pass incorrectly.
+Always include it at the end of the test.
+Use Cases:
+
+Validating multiple UI elements (e.g., a form or dashboard).
+End-to-end tests where you want to check all possible issues in one run.
+Soft vs. Hard Assertions:
+
+Use hard assertions (e.g., Assert.assertEquals) for critical failures (e.g., database connection).
+Use soft assertions for non-critical validations (e.g., UI field checks).
+
+Best Practices:
+Reset Between Tests: Create a new SoftAssert instance for each test method to avoid state leakage.
+Combine with Try-Catch
+
+@Test
+public void testWithTryCatch() {
+    SoftAssert softAssert = new SoftAssert();
+    try {
+        // Test steps
+        softAssert.assertEquals(...);
+    } finally {
+        softAssert.assertAll(); // Ensure assertAll() is called even if exceptions occur
+    }
+}
+
+
+Soft assertions are powerful for scenarios where you need to validate multiple conditions and
+want a comprehensive view of all failures.
+
+******************************************************************************************************************
+parameters that can be passed into the @Test annotation in TestNG, along with examples and usage. -
+
+ TestNG is a testing framework, and the @Test annotation is fundamental for marking methods as test cases.
+
+certain parameters might conflict, like dependsOnMethods and priority,
+ where the dependency takes precedence over priority.
+
+Including a section on how to use these parameters in the testng.xml file might be useful,
+especially for parameters like 'groups' where you can specify which groups to run in the XML configuration.
+
+
+detailed explanation of the parameters available in the @Test annotation in TestNG,
+along with examples and usage scenarios:
+
+
+
+1. dependsOnMethods
+Purpose: Specifies methods that must execute successfully before the current test runs.
+Example:
+
+@Test
+public void login()
+ {
+ }
+
+@Test(dependsOnMethods = "login")
+public void checkDashboard() {
+    // Runs only if login() passes.
+}
+
+2. groups
+Purpose: Assigns the test to one or more groups (e.g., "smoke", "regression").
+Example:
+@Test(groups = {"smoke", "regression"})
+public void validateSearch() {  }
+
+
+Usage in testng.xml:
+<groups>
+  <run>
+    <include name="smoke"/>
+  </run>
+</groups>
+
+3. enabled
+Purpose: Enables/disables a test (default: true).
+Example:
+@Test(enabled = false) // Skips this test
+public void deprecatedTest() { }
+
+4. priority
+Purpose: Defines the execution order (lower priorities run first).
+Example:
+@Test(priority = 1)
+public void setup() { }
+
+@Test(priority = 2)
+public void testFeature() { }
+
+5. timeOut
+Purpose: Fails the test if it doesn’t complete within the specified milliseconds.
+Example:
+@Test(timeOut = 5000) // Fails if test takes >5 seconds
+public void performanceTest() { }
+
+
+6. dataProvider
+Purpose: Links the test to a data provider method for parameterized testing.
+Example:
+@DataProvider(name = "userData")
+public Object[][] provideData() {
+  return new Object[][] {{"user1", "pass1"}, {"user2", "pass2"}};
+}
+
+@Test(dataProvider = "userData")
+public void loginTest(String username, String password) { }
+
+7. invocationCount
+Purpose: Runs the test multiple times.
+Example:
+@Test(invocationCount = 3) // Runs 3 times
+public void retryTest() { }
+
+8. successPercentage
+Purpose: Allows a percentage of passes for tests with invocationCount.
+Example:
+
+@Test(invocationCount = 10, successPercentage = 80)
+public void flakyTest() {
+  // Passes if at least 8/10 invocations succeed.
+}
+
+
+
+9. expectedExceptions
+Purpose: Expects the test to throw a specific exception.
+Example:
+
+@Test(expectedExceptions = ArithmeticException.class)
+public void divideByZero() {
+  int result = 10 / 0; // Throws ArithmeticException
+}
+
+
+10. description
+Purpose: Adds a description to the test.
+Example:
+@Test(description = "Validates user login functionality")
+public void loginTest() { }
+
+11. alwaysRun
+Purpose: Runs the test even if dependent methods fail (overrides dependsOnMethods).
+Example:
+
+@Test(dependsOnMethods = "login", alwaysRun = true)
+public void checkDashboard() {
+  // Runs even if login() fails.
+}
+
+12. singleThreaded
+Purpose: Forces all methods in a class to run in the same thread.
+Example:
+@Test(singleThreaded = true)
+public class ThreadSafeTests { }
+
+
+
+
+13. retryAnalyzer
+Purpose: Specifies a class to retry failed tests.
+Example:
+
+public class RetryAnalyzer implements IRetryAnalyzer { }
+
+@Test(retryAnalyzer = RetryAnalyzer.class)
+public void flakyTest() { }
+
+
+14. parameters
+Purpose: Passes parameters from testng.xml to the test.
+Example:
+@Test
+@Parameters({"browser", "env"})
+public void setupBrowser(String browser, String env) { }
+
+In testng.xml:
+<parameter name="browser" value="chrome"/>
+<parameter name="env" value="prod"/>
+
+
+
+15. invocationTimeOut
+Purpose: Total time allowed for all invocations (used with invocationCount).
+Example:
+
+@Test(invocationCount = 5, invocationTimeOut = 10000)
+public void loadTest() {
+  // All 5 invocations must complete within 10 seconds.
+}
+
+
+16. threadPoolSize
+Purpose: Runs tests in parallel threads (used with invocationCount).
+Example:
+@Test(invocationCount = 5, threadPoolSize = 3)
+public void parallelTest() {
+  // 5 invocations run across 3 threads.
+}
+
+*/
