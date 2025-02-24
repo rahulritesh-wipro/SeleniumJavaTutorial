@@ -1,3 +1,383 @@
+Actions API
+ref- https://www.selenium.dev/documentation/webdriver/actions_api/ 
+The Actions API in Selenium provides granular control over virtualized input devices (keyboard, mouse, pen, touch, scroll wheel) to simulate complex user interactions. 
+
+Unlike high-level methods (e.g., element.click()), it allows precise sequencing of low-level actions, which are executed together via perform(). Here's a structured breakdown:
+
+1. Input Sources
+
+
+a. Keyboard (key_input)
+Simulate key presses, releases, and typing.
+Methods: key_down(key), key_up(key), send_keys(keys).
+Example: Holding SHIFT to type uppercase
+
+Actions actions = new Actions(driver);
+actions.keyDown(Keys.SHIFT)
+       .sendKeys("a")
+       .keyUp(Keys.SHIFT)
+       .perform(); // Outputs "A"
+
+
+b. Pointer (pointer_input)
+Models mouse, pen, or touch interactions.
+Methods: move_to(element), click_and_hold(), release(), context_click() (right-click), double_click().
+Example: Drag-and-drop:
+
+WebElement source = driver.findElement(By.id("source"));
+WebElement target = driver.findElement(By.id("target"));
+new Actions(driver)
+    .clickAndHold(source)
+    .moveToElement(target)
+    .release()
+    .perform();
+
+c. Wheel (wheel_input) (Selenium 4.2+)
+Simulates scroll wheel actions.
+Method: scrollByAmount(x, y).
+Example: Scroll down 100 pixels:
+
+new Actions(driver)
+    .scrollByAmount(0, 100)
+    .perform();
+
+2. Chaining and Execution
+Chain actions for one or more devices into a sequence.
+Execution: Call perform() to run all actions atomically.
+Example: Holding a key while moving the mouse:
+
+new Actions(driver)
+    .keyDown(Keys.CONTROL)
+    .moveToElement(element)
+    .click()
+    .keyUp(Keys.CONTROL)
+    .perform(); // Ctrl+Click
+
+3. Advanced Use Cases
+Multi-device coordination: Combine keyboard, pointer, and wheel actions.
+Pen/Touch interactions: Specify pointer type during initialization:
+
+
+PointerInput pen = new PointerInput(PointerInput.Kind.PEN, "my-pen");
+new Actions(driver)
+    .setActivePointer(pen)
+    .moveToElement(canvas)
+    .clickAndHold()
+    .moveByOffset(50, 50) // Draw a line
+    .release()
+    .perform();
+
+4. Key Notes
+Order matters: Actions execute in the sequence they’re added.
+No implicit waits: Add explicit waits if UI delays are expected.
+Synchronization: Actions across devices are synchronized during perform().
+
+5. When to Use the Actions API
+Complex interactions (e.g., drag-and-drop, multi-touch, key combinations).
+Precise control over input device behavior (e.g., simulating a pen’s pressure).
+By leveraging the Actions API, you can replicate realistic user interactions for comprehensive testing.
+
+
+Summary: Action Builder in Selenium
+The transition from the legacy JSON Wire Protocol to the W3C WebDriver Protocol introduced highly granular control over input devices (keyboard, mouse, pen, wheel) in Selenium's Actions API. 
+
+While this provides powerful low-level customization, it requires manual synchronization when coordinating multiple devices (e.g., keyboard shortcuts with mouse clicks).
+
+However, most users do not need to interact directly with low-level commands, as Selenium offers pre-built convenience methods for common interactions (e.g., clicks, typing, drag-and-drop).
+
+These methods abstract the underlying complexity, simplifying test automation.
+
+Key Points:
+W3C Protocol: Enables detailed control but increases complexity for multi-device synchronization.
+Convenience Methods: Handle most use cases (e.g., click(), sendKeys(), scrollByAmount()), eliminating the need for manual low-level command chaining.
+Documentation: Detailed guides for keyboard, mouse, pen, and wheel interactions are available in Selenium’s official docs.
+Takeaway: Prioritize convenience methods for efficiency, reserving low-level commands for advanced, unsupported scenarios.
+
+Pause
+Pointer movements and Wheel scrolling allow the user to set a duration for the action, but sometimes you just need to wait a beat between actions for things to work correctly.
+        WebElement clickable = driver.findElement(By.id("clickable"));
+        new Actions(driver)
+                .moveToElement(clickable)
+                .pause(Duration.ofSeconds(1))
+                .clickAndHold()
+                .pause(Duration.ofSeconds(1))
+                .sendKeys("abc")
+                .perform();
+
+> pointer movements and wheel scrolling have durations, but sometimes you need a pause between actions.
+>the Pause method in Selenium allows inserting a wait between actions in the chain. Unlike duration parameters in movements or scrolls, which control the speed of the action, a Pause is a simple wait.
+
+even though you can set durations for movements, sometimes you just need a delay between actions. For example, after clicking an element, you might need to wait for a dropdown to appear before moving the pointer again.
+
+I should explain the difference between duration in movements and Pause. Duration spreads the action over time (like moving the mouse smoothly), while Pause is a static wait. It's important to note that Pause doesn't take a duration parameter but a time in milliseconds or a Java Duration object.
+
+
+Use cases: When elements take time to load after an action, when animations need to finish, or when coordinating complex sequences where timing is crucial. However, I should also mention that using explicit waits (like WebDriverWait) is generally better than hard-coded pauses to avoid flaky tests. But in some cases, like when no condition can be checked, a Pause is necessary.
+
+
+
+Explanation: Pause in Selenium Actions API
+The pause(duration) method in Selenium's Actions API allows you to insert a deliberate wait between chained actions. Unlike the duration parameter in pointer movements or wheel scrolls (which controls the speed of an action), a pause adds a static delay to ensure proper timing or synchronization between steps.
+
+>  When to Use pause():
+1. Waiting for UI Updates:
+
+After triggering an action (e.g., clicking a button), wait for a dropdown, modal, or animation to render.
+
+
+new Actions(driver)  
+    .click(button)  
+    .pause(Duration.ofSeconds(1)) // Wait for dropdown to open  
+    .sendKeys("Text")  
+    .perform();  
+
+Synchronizing Complex Sequences:
+
+2. Coordinate multi-device actions (e.g., holding a key while hovering).
+
+new Actions(driver)  
+    .keyDown(Keys.SHIFT)  
+    .moveToElement(element)  
+    .pause(500) // Short delay before clicking  
+    .click()  
+    .keyUp(Keys.SHIFT)  
+    .perform();  
+
+3. Avoiding Timing Flakiness:
+Handle scenarios where implicit/explicit waits aren’t sufficient (e.g., third-party animations).
+
+Best Practices:
+Avoid Overuse: Prefer explicit waits (e.g., WebDriverWait) for element readiness. Use pause() sparingly.
+Keep Pauses Short: Use milliseconds (e.g., 500 ms) to minimize test execution time.
+Combine with Action Durations: For realistic user behavior:
+
+new Actions(driver)  
+    .moveToElement(element, 1000) // Smooth 1-second movement  
+    .pause(500) // Wait after moving  
+    .click()  
+    .perform();  
+
+Example: Drag-and-Drop with Pauses
+
+WebElement source = driver.findElement(By.id("source"));  
+WebElement target = driver.findElement(By.id("target"));  
+
+new Actions(driver)  
+    .clickAndHold(source)  
+    .pause(1000) // Wait to ensure the element is "grabbed"  
+    .moveToElement(target)  
+    .pause(500) // Wait before releasing  
+    .release()  
+    .perform();  
+
+Key Takeaway
+Use pause() to manage timing gaps between actions when dynamic waits (e.g., for element visibility) aren’t feasible. It’s a simple but powerful tool for stabilizing complex interaction chains in automation scripts.
+
+Explanation: Release All Actions
+In Selenium's Actions API, input devices (keyboard, mouse, etc.) retain their state (e.g., pressed keys, held mouse buttons) even between action chains. This can lead to unintended behavior if not properly reset. For example:
+A key (e.g., SHIFT) remains depressed after a test, affecting subsequent actions.
+A mouse button stays "held down," causing accidental drags or clicks in later steps.
+The release_all_actions() method (or equivalent in your language) is a safety mechanism to reset all input states. Unlike actions queued with perform(), this method does not require chaining and is executed immediately.
+
+Why Use release_all_actions()?
+Prevent State Leakage:
+
+Resets all keys and pointer buttons to their "up" state.
+Example: If a test fails mid-action (e.g., after keyDown(Keys.SHIFT) but before keyUp()), subsequent tests inherit the SHIFT key being pressed.
+Isolate Test Cases:
+
+Ensures no lingering input states affect unrelated tests.
+Handle Unexpected Interruptions:
+
+Use in teardown/cleanup phases to guarantee a clean slate.
+| Python | ActionChains(driver).reset_actions() | driver.reset_actions() |
+| Java | Actions(driver).release()* | new Actions(driver).release().perform(); |
+| C# | new Actions(driver).Release() | new Actions(driver).Release().Perform(); |
+Note:
+
+In Java, release() only releases the current action chain’s inputs. For a full reset, use driver.getKeyboard().releaseAllKeys() and driver.getMouse().releaseAllButtons().
+Not part of perform(): Unlike regular actions, release_all_actions() is called directly and bypasses the queuing system.
+
+        ((RemoteWebDriver) driver).resetInputState();
+
+// Java example  
+new Actions(driver)  
+    .keyDown(Keys.CONTROL)  
+    .click(element)  
+    .perform();  
+
+// Cleanup: Release all keys/buttons  
+new Actions(driver).release().perform();  
+
+When to Call release_all_actions()
+After tests with partial actions (e.g., interrupted by exceptions).
+Between independent test cases to ensure isolation.
+Before navigating to a new page where lingering inputs could cause issues.
+
+Keyboard actions--------------------
+
+A representation of any key input device for interacting with a web page.
+There are only 2 actions that can be accomplished with a keyboard: 
+> pressing down on a key, and 
+> releasing a pressed key.
+
+In addition to supporting ASCII characters, each keyboard key has a representation that can be pressed or released in designated sequences.
+
+Keys
+In addition to the keys represented by regular unicode, unicode values have been assigned to other keyboard keys for use with Selenium. 
+Each language has its own way to reference these keys; the full list can be found here.
+ref - https://www.w3.org/TR/webdriver/#keyboard-actions 
+
+Key down
+        new Actions(driver)
+                .keyDown(Keys.SHIFT)
+                .sendKeys("a")
+                .perform();
+
+
+Key up
+
+        new Actions(driver)
+                .keyDown(Keys.SHIFT)
+                .sendKeys("a")
+                .keyUp(Keys.SHIFT)
+                .sendKeys("b")
+                .perform();
+
+
+Send keys
+This is a convenience method in the Actions API that combines keyDown and keyUp commands in one action. Executing this command differs slightly from using the element method, but primarily this gets used when needing to type multiple characters in the middle of other actions.
+
+Active Element
+        new Actions(driver)
+                .sendKeys("abc")
+                .perform();
+
+
+Designated Element
+        new Actions(driver)
+                .sendKeys(textField, "Selenium!")
+                .perform();
+
+
+Copy and Paste
+
+Here’s an example of using all of the above methods to conduct a copy / paste action. Note that the key to use for this operation will be different depending on if it is a Mac OS or not. This code will end up with the text: SeleniumSelenium!
+
+        Keys cmdCtrl = Platform.getCurrent().is(Platform.MAC) ? Keys.COMMAND : Keys.CONTROL;
+
+        WebElement textField = driver.findElement(By.id("textInput"));
+        new Actions(driver)
+                .sendKeys(textField, "Selenium!")
+                .sendKeys(Keys.ARROW_LEFT)
+                .keyDown(Keys.SHIFT)
+                .sendKeys(Keys.ARROW_UP)
+                .keyUp(Keys.SHIFT)
+                .keyDown(cmdCtrl)
+                .sendKeys("xvv")
+                .keyUp(cmdCtrl)
+                .perform();
+
+        Assertions.assertEquals("SeleniumSelenium!", textField.getAttribute("value"));
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+Mouse actions
+A representation of any pointer device for interacting with a web page.
+There are only 3 actions that can be accomplished with a mouse:
+> pressing down on a button, 
+> releasing a pressed button, and
+> moving the mouse. 
+
+Selenium provides convenience methods that combine these actions in the most common ways.
+
+Click and hold
+
+This method combines moving the mouse to the center of an element with pressing the left mouse button. This is useful for focusing a specific element:
+        WebElement clickable = driver.findElement(By.id("clickable"));
+        new Actions(driver)
+                .clickAndHold(clickable)
+                .perform();
+
+
+Click and release
+
+This method combines moving to the center of an element with pressing and releasing the left mouse button. This is otherwise known as “clicking”:
+
+        WebElement clickable = driver.findElement(By.id("click"));
+        new Actions(driver)
+                .click(clickable)
+                .perform();
+
+
+Alternate Button Clicks
+There are a total of 5 defined buttons for a Mouse:
+
+0 — Left Button (the default)
+1 — Middle Button (currently unsupported)
+2 — Right Button
+3 — X1 (Back) Button
+4 — X2 (Forward) Button
+
+
+Context Click
+
+This method combines moving to the center of an element with pressing and releasing the right mouse button (button 2). This is otherwise known as “right-clicking”:
+
+        WebElement clickable = driver.findElement(By.id("clickable"));
+        new Actions(driver)
+                .contextClick(clickable)
+                .perform();
+
+Back Click
+There is no convenience method for this, it is just pressing and releasing mouse button 3
+
+
+        PointerInput mouse = new PointerInput(PointerInput.Kind.MOUSE, "default mouse");
+
+        Sequence actions = new Sequence(mouse, 0)
+                .addAction(mouse.createPointerDown(PointerInput.MouseButton.BACK.asArg()))
+                .addAction(mouse.createPointerUp(PointerInput.MouseButton.BACK.asArg()));
+
+        ((RemoteWebDriver) driver).perform(Collections.singletonList(actions));
+
+
+Forward Click
+There is no convenience method for this, it is just pressing and releasing mouse button 4
+
+        PointerInput mouse = new PointerInput(PointerInput.Kind.MOUSE, "default mouse");
+
+        Sequence actions = new Sequence(mouse, 0)
+                .addAction(mouse.createPointerDown(PointerInput.MouseButton.FORWARD.asArg()))
+                .addAction(mouse.createPointerUp(PointerInput.MouseButton.FORWARD.asArg()));
+
+        ((RemoteWebDriver) driver).perform(Collections.singletonList(actions));
+
+
+Double click
+This method combines moving to the center of an element with pressing and releasing the left mouse button twice.
+        WebElement clickable = driver.findElement(By.id("clickable"));
+        new Actions(driver)
+                .doubleClick(clickable)
+                .perform();
+
+Move to element
+This method moves the mouse to the in-view center point of the element. This is otherwise known as “hovering.” Note that the element must be in the viewport or else the command will error.
+
+        WebElement hoverable = driver.findElement(By.id("hover"));
+        new Actions(driver)
+                .moveToElement(hoverable)
+                .perform();
+
+
+????????????????
+
+
+
+
+
+
+*******************************************************************************************************************************
 Actions class in selenium
 > How to handle Actions class in Selenium
 > Methods of Actions class
