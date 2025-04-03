@@ -1,0 +1,486 @@
+Log4j is an open-source tool.
+Three main components constitute the implementation of log4j. 
+These components represent the 
+> details about the log level, 
+> formats of the log message in which they would be rendered, 
+> and their saving mechanisms.
+
+Constituents of Log4j
+Loggers
+Appenders
+Layouts
+
+#1) Loggers
+The following steps need to be done to implement loggers in the project.
+Step #1: Create an instance of the Logger class
+Step #2: Defining the log level
+
+Logger Class: It is a Java-based utility that has all the generic methods already implemented so that we are enabled to use log4j.
+
+Log Levels: Log levels are popularly known as printing methods. These are used for printing the log messages. There are primarily five kinds of log levels.
+
+error()
+warn()
+info()
+debug()
+log()
+Thus, to generate logs, we all need to call any printing methods over the logger instance. We will have a broader look at it during the implementation phase.
+
+
+#2) Appenders
+
+Now that we know how to generate these logs, the next thing that should pop into our minds is where I can view the logs. The answer to this question lies in the definition of “Appenders”.
+
+Appenders are consistently used to specify the data source/medium where the logs should be generated. The scope of data sources extends to various external mediums, such as the console, GUI, text files, etc.
+
+
+#3) Layouts
+
+Sometimes, the user wishes certain information to be pre-pended or appended with each log statement. For example, I wish to print a timestamp along with my log statement. Thus, such requirements can be accomplished by “Layouts”.
+
+Layouts are a utility that allows the user to opt for the desired format in which the logs would be rendered. Appenders and Layout have a tight coupling between them. Thus, we are required to map each of the appenders with a specific layout.
+
+Take note that the user is leveraged to define multiple appenders, each map with a distinct layout.
+
+Now that we are aware of the basics of log4j and its components, we shall move our focus towards the implementation phenomenon.
+
+Let us understand the entire implementation process step by step.
+Installation/Setup
+Step #1: The first and foremost step is to download the latest jar for log4j API.
+Step #2: The next step is to configure the build path and provide log4j.jar as an external library.
+
+or Add maven dependency for Log4j
+
+Logging using log4j can be implemented and configured in namely two ways:
+
+Programmatically via script
+Manually via Configuration files
+Both the above-mentioned configuration methods have merit and demerits. For this tutorial, we would consider configuring log4j manually via Configuration files based on its ease and simplicity. The configuration file is yet another XML file to configure artifacts related to log4j.
+
+Creation of log4j2.xml file
+Step #1: Create a log4j.xml file. Copy and paste the code below in the configuration file.
+
+<?xml version="1.0" encoding="UTF-8" ?>
+<Configuration status="WARN">
+    <appender name="consoleAppender" class="org.apache.log4j.ConsoleAppender">
+        <layout class="org.apache.log4j.PatternLayout">
+            <!-- For Printing message with date , time & class name also
+            <param name="ConversionPattern" value="%d{dd MMM yyyy HH:mm:ss} %5p %c{1} - %m%n"/>
+            -->
+            <!-- For printing message only -->
+            <param name="ConversionPattern" value="%-5p[%c{1}]: %m%n"/>
+        </layout>
+    </appender>
+    <appender name="fileAppender" class="org.apache.log4j.RollingFileAppender">
+        <param name="append" value="false"/>
+        <param name="file" value="Logs/rritesh_Automation_Logs.log"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{dd-MM-yyyy HH:mm:ss}%x %-5p[%c{1}]: %m%n"/>
+        </layout>
+    </appender>
+    <root>
+        <level value="INFO"/>
+        <appender-ref ref="consoleAppender"/>
+        <appender-ref ref="fileAppender"/>
+    </root>
+</Configuration>
+
+
+
+consoleAppender
+<appender name="consoleAppender" class="org.apache.log4j.ConsoleAppender">
+<layout class="org.apache.log4j.PatternLayout">
+The console appender is used to print the log statements on the console.
+
+file appender
+	
+<appender name="fileAppender" class="org.apache.log4j.RollingFileAppender">
+The file appender is used to print the log statements within an external file. The user is leveraged to set an on and off value for the appended tag, which would tell the system to append and log statements to the previously created one or to overwrite the previously created logs and generate the fresh logs altogether.
+
+<param name=<em>"append"</em> value=<em>"false"</em>/>
+<param name="file" value="Logs/TestLogs.log"/>
+The value of the file parameter is set to a particular location to notify the system to create the anticipated log file at the said location. We also specify the log file name within the value parameter.
+
+Layout
+<layout class="org.apache.log4j.PatternLayout">
+<param name="ConversionPattern" value="%d{dd-MM-yyyy HH:mm:ss}%x %-5p[%c{1}]: %m%n"/>
+</layout>
+
+As discussed in the early sections of this tutorial, the layouts are used to specify the rendering mechanism for log statements. Log4j provides various layout patterns. The user is leveraged to specify the desired pattern in the value of the ConversionPattern parameter.
+
+The output of the above layout should be something like:
+
+01-07-2014 12:56:32 INFO [GmailLogin]: Sample log message
+
+In the output above:
+
+First field – Date of execution
+Second field – Exact time in hh: mm: ss at which the test step was executed
+Third field – One of the log-level
+Fourth field – Name of the test class
+The fifth field – Log message
+
+
+Step #2: As soon as we are done with the creation of log4j.XML file, the next step is to put the log4j.XML file into the project’s root folder/base directory.
+
+
+// we will not use this
+Program level Implementation
+
+Step #3: The next step is to use any of the configurators to configure and parse the log4j.xml file.
+
+Syntax:
+package com.logExample;
+import org.apache.log4j.xml.DOMConfigurator;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.runner.JUnitCore;
+import org.junit.runner.Result;
+import org.junit.runner.RunWith;
+import org.junit.runner.notification.Failure;
+import org.junit.runners.Suite;
+@RunWith(Suite.class)
+@Suite.SuiteClasses({
+                Demo.class
+                                })
+public class TestSuite {
+                /**
+                 * Setup method to set system property for log file name
+                 */
+                @BeforeClass
+                public static void Setup() {
+                                // loading log4j.xml file
+                               DOMConfigurator.configure("log4j.xml");
+                }
+                /**
+                 * @param args
+                 */
+                public static void main(String[] args) {
+                                Result result = JUnitCore.runClasses(TestSuite.class);
+                                for (Failure failure : result.getFailures()) {
+                                                System.out.println("\nTEST NAME: " + failure.getTestHeader());
+                                                System.out.println("\nERROR: " + failure.getMessage() + "\n");
+                                                System.out.println(failure.getTrace());
+                                                System.exit(1);
+                                }
+                }             
+}
+
+Note: Logs can be implemented at the class level also instead of the Test suite level. All you need to do is to make the required changes in the test class rather than in the test suite.
+
+Step #4: The very next step is to create a test class “GmailLogin.java” under the project. Implement the Gmail login functionality within the class.
+
+Step #5: The next step is to import the logger class to implement the log statements.
+
+Syntax:
+
+import org.apache.log4j.Logger;
+
+Step #6: The next step in the process is to instantiate the object of the Logger class.
+
+Syntax:
+
+//Object initialization for log
+
+       static Logger log = Logger.getLogger(Demo.class.getName());
+
+Step #7: The above-created log variable of type Logger would be used across the entire test class to generate the log statements. Refer to the following code for the same.
+
+@Test
+public void testGmailLogin() throws Exception{
+// enter a valid email address
+driver.findElement(By.id("Email")).sendKeys("TestSelenium1607@gmail.com");
+log.info("Entered a valid Email Address.");
+// enter a invalid password
+driver.findElement(By.id("Passwd")).sendKeys("InvalidPassword");
+log.info("Entered a invalid Password.");
+// click on sign in button
+driver.findElement(By.id("signIn")).click();
+log.info("Clicked on the Sign In Button.");
+try{
+//Verify the home page
+assertTrue("Verification Failed: User successfully landed on the Home Page.", driver.getTitle().equals("Gmail"));
+log.info("Verified that the user landed on the Home Page.");
+}
+catch (Exception e)
+{
+log.error("Unsuccessfull Login.");
+}
+}
+
+Result in the log file
+
+01-07-2014 12:56:11 INFO [GmailLogin]: Uploaded the file to the System: FileExample.txt
+01-07-2014 12:56:11 INFO [GmailLogin]: Submitting the changes
+01-07-2014 12:56:15 ERROR [GmailLogin]: Unsuccessful Login.
+
+https://www.softwaretestinghelp.com/log4j-tutorial-selenium-tutorial-26/ 
+
+UPDATE on March 2025
+Logs
+A log is a message that we are recording or generating for each transaction we do. We can analyze the logs to check what went correct or wrong. Suppose any system closes abruptly, then by analyzing the logs, we can get into the root cause of the failure.
+
+Thus, logs are generated in every development cycle. In the same way, we can also generate logs in our Selenium code for testing before and after each test condition or test statement, to check if all are working as expected.
+
+log4j Framework
+To generate these log files in Selenium code, we use log4j framework provided by Apache. With this framework, we can generate our customized logs.
+
+Click here to download log4j jar from the Maven repository.
+
+We can generate logs in 2 ways:
+
+Using log4j.properties file
+Using log4j.xml file
+These files will contain the configuration of what kind of logs you want to generate. You can use any one of them. If you wish to use both, then log4j.xml will be given higher precedence. The preferred way to generate logs is using the properties file, so here we will explore more about generating through the properties file only.
+
+Add log4j maven dependency
+Create log4j.properties file and add the properties file parallel to your source folder when you are using a standalone Java application.
+
+Log4j.properties file is a configuration file that stores values in the key-value pair.
+
+It contains 3 main components:
+
+Loggers: Captures logging information.
+Appenders: Publish logging information to a different preferred destination, like consoles, files, sockets, NT event logs, etc.
+Layouts: Format logging information in different styles like HTML, XML Layout, etc.
+
+Syntax of log4j.properties File
+#1) Define the root logger with the logging level INFO and appender X [appender can be any consoles, files, sockets, NT event logs].
+
+log4j.rootLogger = INFO, X
+
+#2) Set the appender named X to be a File Appender.
+log4j.appender.X = org.apache.log4j.FileAppender
+
+#3) Define the layout for the X appender.
+log4j.appender.X.layout = org.apache.log4j.PatternLayout
+log4j.appender.X.layout.conversionPattern = %m%n
+
+
+log4j.properties.txt Example
+
+Create a log4j.properties file, referring to the above syntax:
+
+# initialize root logger with level INFO and print it in the console using stdout and fout.
+log4j.rootLogger=INFO,stdout,fout
+
+# add a ConsoleAppender to the logger stdout to write to the console.	
+log4j.appender.stdout=org.apache.log4j.ConsoleAppender
+
+# use a simple message format layout pattern defined is %m%n, which prints logging messages in a newline.
+log4j.appender.stdout.layout=org.apache.log4j.PatternLayout
+log4j.appender.stdout.layout.ConversionPattern=%m%n
+
+# add a FileAppender to the logger fout. 
+log4j.appender.fout=org.apache.log4j.FileAppender
+
+# The appender FILE is defined as org.apache.log4j.FileAppender. It writes to a file named SoftwareTestingHelp.
+log4j.appender.fout.File=SoftwareTestingHelp.log
+
+# use a more detailed message pattern.
+log4j.appender.fout.layout=org.apache.log4j.PatternLayout
+log4j.appender.fout.layout.ConversionPattern=%p\t%d{ISO8601}\t%r\t%c\t[%t]\t%m%n
+
+
+Different Levels Of Logging
+DEBUG
+INFO
+WARN
+ERROR
+FATAL
+Each level has its priority. Suppose we use the “DEBUG” level, then it will log all level messages like INFO >> WARN >> ERROR >> FATAL.
+
+Suppose if we use the “ERROR” level, then it will ignore DEBUG >> INFO >> WARN and it will only log ERROR >> FATAL.
+
+In all these levels, we need to define them in our properties file. The logs will be generated, depending on our configuration.
+
+Implementing the logs for the same example referred to above:
+
+Step #1: Create an object for the Logger class.
+	
+final static Logger logger = Logger.getLogger(Frame.class);
+
+The above method helps to get the logger object. This method will take either the class or the name of the class as an argument. Using this logger object, you can generate customized logs.
+
+In this example, we referred to the apache log4j framework. If you are using the TestNG framework, then you need to use the TestNG log class.
+No logs are generated either in the console or any log file created. An error is received in the console as the log file is not implemented properly. To implement it, we need to use – PropertyConfigurator class. Follow step 2.
+
+Step #2: Initialize the Property Configurator file and pass the argument as the name of the log4j properties file.
+
+PropertyConfigurator.configure(“log4j.properties”);
+
+Complete Code for Log File Generation:
+
+
+package com.wordpress.pages;
+import java.util.List;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
+import org.junit.Assert;
+import org.junit.Test;
+import org.openqa.selenium.Alert;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+public class Frame {
+static WebDriver driver;
+final static Logger logger = Logger.getLogger(Frame.class);
+@Test
+public void Test(){
+PropertyConfigurator.configure("log4j.properties.txt");
+System.setProperty("webdriver.chrome.driver", "D:\\New folder\\exe\\chromedriver.exe");
+logger.debug("Debug this path for chrome path issue");
+driver = new ChromeDriver();
+logger.info("Chrome driver is up and running");
+driver.get("http://www.dwuser.com/education/content/the-magical-iframe-tag-an-introduction/");
+logger.warn("Url is not loaded properly");
+//identifying the frame using locator or say using webelement
+driver.switchTo().frame(driver.findElement(By.xpath("//div[@id='eduFooterWrap']//iframe[1]")));
+logger.error("Frame is not available");
+driver.findElement(By.xpath("//input[@name='name']")).sendKeys("SoftwareTestingHelp.com");
+logger.fatal("Message not entered");
+}
+}
+
+log4j.properties.txt
+
+# initialize root logger with level INFO and print it in the console using stdout and fout.
+log4j.rootLogger=INFO,stdout,fout
+
+# add a ConsoleAppender to the logger stdout to write to the console.	
+log4j.appender.stdout=org.apache.log4j.ConsoleAppender
+
+# use a simple message format layout pattern defined is %m%n, which prints logging messages in a newline.
+log4j.appender.stdout.layout=org.apache.log4j.PatternLayout
+log4j.appender.stdout.layout.ConversionPattern=%m%n
+
+# add a FileAppender to the logger fout. 
+log4j.appender.fout=org.apache.log4j.FileAppender
+
+# The appender FILE is defined as org.apache.log4j.FileAppender. It writes to a file named SoftwareTestingHelp.
+log4j.appender.fout.File=SoftwareTestingHelp.log
+
+# use a more detailed message pattern.
+log4j.appender.fout.layout=org.apache.log4j.PatternLayout
+log4j.appender.fout.layout.ConversionPattern=%p\t%d{ISO8601}\t%r\t%c\t[%t]\t%m%n
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+# Root logger option
+log4j.rootLogger=INFO, console, file
+
+# Direct log messages to the console
+log4j.appender.console=org.apache.log4j.ConsoleAppender
+log4j.appender.console.layout=org.apache.log4j.PatternLayout
+log4j.appender.console.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n
+
+# Direct log messages to a log file
+log4j.appender.file=org.apache.log4j.FileAppender
+log4j.appender.file.File=logs/app.log
+log4j.appender.file.layout=org.apache.log4j.PatternLayout
+log4j.appender.file.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n
+
+# Logger for Selenium
+log4j.logger.org.openqa.selenium=DEBUG, console, file
+log4j.additivity.org.openqa.selenium=false
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
