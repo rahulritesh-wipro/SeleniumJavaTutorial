@@ -405,6 +405,81 @@ log4j.additivity.org.openqa.selenium=false
     </Loggers>
 </Configuration>
 
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+Practical implementation in project
+
+Step 1- Create log4j2.xml file under src/test/resources/log4j2.xml
+Step 2 - add the below content 
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </Console>
+        <File name="File" fileName="logs/OrangeHRMapp.log" >
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n"/>
+        </File>
+    </Appenders>
+    <Loggers>
+        <Root level="DEBUG">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="File"/>
+        </Root>
+    </Loggers>
+</Configuration>
+
+Step 3 - In your test class see the example
+package rough;
+
+import io.github.bonigarcia.wdm.WebDriverManager;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+
+import java.util.concurrent.TimeUnit;
+
+public class TC01 {
+
+    //Test Data
+    //Username : Admin
+    //Password : admin123
+
+    // Test configurations
+    //Browser : Chrome
+    //environment : https://opensource-demo.orangehrmlive.com/web/index.php/auth/login
+    //URL : https://opensource-demo.orangehrmlive.com/web/index.php/auth/login
+
+    //Logs
+    //reports
+
+
+
+    public static void main(String[] args) {
+
+        Logger log = LogManager.getLogger(TC01.class.getName().getClass());
+        log.info("Starting the test case");
+        WebDriverManager.chromedriver().setup();
+        log.info("Chrome driver setup completed");
+        // Initialize the WebDriver
+        WebDriver driver = new ChromeDriver();
+        log.info("Chrome driver initialized");
+        // maximize the window
+        driver.manage().window().maximize();
+        log.info("Maximized the window");
+        //set implicit wait
+        driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+        log.info("Set implicit wait of 20 seconds");
+        // Navigate to the URL
+        driver.get("https://cbp-fd1.chevron.com/cbpsamlsignon/signin.jsp");
+        log.info("Navigated to the URL");
+
+
+
+    }
+}
 
 
 
