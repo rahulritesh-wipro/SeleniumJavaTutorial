@@ -1,4 +1,33 @@
 Interface
+-------------------------------------------------------------------------------------------------------------------------
+Features        |     class                            |          Interface                                | 
+---------------------------------------------------------------------------------------------------------------------------
+Instantiation   |  In class, you can create an object. | In an interface, you can't create an object       |
+
+Variables      |  Class can have instance variables     | Variables are public static final (constants only).|
+
+Methods       | Class can have concrete methods         | In an interface, methods are abstract by default   |
+
+Inheritance   | It supports single inheritance          | Supports multiple inheritance                      |
+
+Constructors  | Can have constructors.                  | No constructors allowed.                            |
+
+Access
+Modifiers | Supports private, protected, public, default | In an interface, all members are public by default |
+
+Keyword    | Defined using class.                        | Defined using interface.                           |
+
+Default Methods | It does not support default methods    |  supports default methods(JDK 8+)                  |
+Static Methods  | Can have static methods.               | Supports static methods (JDK 8+)                    |
+Private Methods | Can have private methods.              | Supports private methods (JDK 9+).                  |
+Main Method     | Can have main() for execution.         | Can have main() (since JDK 8, as static methods are allowed).|
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+Note- Relationship Between Class and Interface
+A class can extend another class and similarly, an interface can extend another interface. 
+However, only a class can implement an interface and the reverse (an interface implementing a class) is not allowed.
 
 ✅ Definition of Interface in Java (Interview Style)
 "An interface in Java is a reference type that defines a contract of methods that a class must implement.
@@ -39,14 +68,149 @@ Interfaces are ideal for defining capabilities or roles.
 Polymorphism:
 Interfaces enable polymorphic behavior. You can write code that works on the interface type, not the concrete class.
 
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 Interface - 
 Defined as an abstract type.
 Used to specify  or blueprint of a class
 Contains static constants and abstract methods
 The interface in Java is a mechanism to achieve abstraction.
+By default, variables in an interface are public, static and final.
+It is used to achieve abstraction and multiple inheritance in Java.
+It supports loose coupling (classes depend on behavior, not implementation).
+In other words, interfaces primarily define methods that other classes must implement.
+An interface in Java defines a set of behaviours that a class can implement, usually representing a CAN-DO relationship, but not always in every scenario.
+
+To declare an interface, use the interface keyword. It is used to provide total abstraction. 
+That means all the methods in an interface are declared with an empty body and are public and abstract 
+and all fields are public, static and final by default.
+A class that implements an interface must implement all the methods declared in the interface.
+To implement the interface, use the implements keyword.
+
+A class can extend another class and similarly, an interface can extend another interface. 
+However, only a class can implement an interface and the reverse (an interface implementing a class) is not allowed.
+
+When to Use Class and Interface?
+Use a Class when:
+
+Use a class when you need to represent a real-world entity with attributes (fields) and behaviors (methods).
+Use a class when you need to create objects that hold state and perform actions
+Classes are used for defining templates for objects with specific functionality and properties.
+Use a Interface when:
+
+Use an interface when you need to define a contract for behavior that multiple classes can implement.
+Interface is ideal for achieving abstraction and multiple inheritance.
+Implementation: To implement an interface, we use the keyword implements
+
+Let’s consider the example of Selenium WebDriver like ChromeDriver, EdgeDriver and SafariDriver share common functionalities, which can be defined in an interface, allowing each class (e.g., ChromeDriver, EdgeDriver and SafariDriver) to implement them in its own way. This approach ensures code reusability, scalability and consistency across different browser driver types.
+
+Multiple Inheritance in Java Using Interface
+Java does not support multiple inheritance with classes to avoid ambiguity, but it supports multiple inheritance using interfaces.
+
+class  implements Interface,Interface
+Interface extends Interface,Interface
+
+Note: In Java, the abstract keyword applies only to classes and methods, indicating that they cannot be instantiated directly and must be implemented. When we decide on a type of entity by its behaviour and not via attribute we should define it as an interface.
+
+interface InterfaceName {
+    // Constant fields (public static final by default)  
+    int CONSTANT = 10;  
+    // Abstract method (public abstract by default)  
+    void methodName();  
+    // Default method (JDK 8+)  
+    default void defaultMethod() {  
+        System.out.println("Default implementation");  
+    }  
+    // Static method (JDK 8+)  
+    static void staticMethod() {  
+        System.out.println("Static method in interface");  
+    }  
+    // Private method (JDK 9+)  
+    private void privateMethod() {  
+        System.out.println("Private helper method");  
+    }  
+}
+
+Note: 
+
+Private methods can only be called inside default or static methods in the interface, not by implementing classes
+Static methods are also accessible via the3interface itself not through objects
 
 
-Case 1 By default, variables in an interface are public, static and final.
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+Great question! Let’s break down what it means when we say:
+
+> **"Interfaces support loose coupling because classes depend on behavior, not implementation."**
+
+---
+
+### 🔧 **What is Loose Coupling?**
+
+**Loose coupling** means that parts of your code (like classes) are **not tightly connected** to each other. This makes your code:
+
+- Easier to change
+- Easier to test
+- More flexible and reusable
+
+---
+
+### 🧩 **How Interfaces Help**
+
+Interfaces define **what** a class should do, not **how** it does it. So, when a class depends on an interface, it only cares about the **method names**, not the actual code inside.
+
+---
+
+### ✅ **Example**
+
+```java
+interface Payment {
+    void pay(double amount);
+}
+
+class CreditCardPayment implements Payment {
+    public void pay(double amount) {
+        System.out.println("Paid ₹" + amount + " using Credit Card");
+    }
+}
+
+class UpiPayment implements Payment {
+    public void pay(double amount) {
+        System.out.println("Paid ₹" + amount + " using UPI");
+    }
+}
+
+class Checkout {
+    private Payment payment;
+
+    public Checkout(Payment payment) {
+        this.payment = payment;
+    }
+
+    public void processOrder(double amount) {
+        payment.pay(amount);
+    }
+}
+```
+
+---
+
+### 🔍 **What’s Happening Here?**
+
+- `Checkout` class depends on the `Payment` **interface**, not on `CreditCardPayment` or `UpiPayment`.
+- This means we can **easily switch** the payment method without changing the `Checkout` class.
+- That’s **loose coupling** — `Checkout` depends on the **behavior** (`pay()` method), not the **implementation**.
+
+---
+
+### 🎯 **Benefits**
+
+- You can add new payment types (like Wallet, NetBanking) without changing existing code.
+- Makes testing easier (you can mock the `Payment` interface).
+- Encourages clean, modular design.
+
+---
+
+Would you like a diagram or visual to help explain this in interviews?
 
 In Java, when you declare variables in an **interface**, they are implicitly i.e, whether defined or not
 
@@ -193,6 +357,46 @@ Great follow-up! Let's compare how **variables in interfaces** differ from those
 
 Abstract class in java
 
+An abstract class in Java is a class declared with the abstract keyword. It serves as a blueprint for other classes and cannot be instantiated directly, meaning you cannot create an object of an abstract class. Abstract classes can contain both abstract methods (methods without a body, declared with abstract and ending with a semicolon) and concrete methods (methods with an implementation). [1, 2]  
+Key characteristics and uses of abstract classes: 
+
+• Cannot be instantiated: You cannot create objects directly from an abstract class. To use an abstract class, it must be inherited by another class (a subclass). 
+• May contain abstract methods: These methods are declared without an implementation and must be provided with a body by any concrete (non-abstract) subclass. If a subclass does not implement all inherited abstract methods, it must also be declared abstract. 
+• May contain concrete methods: Abstract classes can also have regular methods with full implementations, providing default behavior or common functionality for subclasses. 
+• Constructors and static/final methods: Abstract classes can have constructors, static methods, and final methods. 
+• Achieving Abstraction: Abstract classes are a core mechanism for achieving abstraction in Java, allowing you to define a common interface and shared functionality while deferring specific implementations to subclasses. This promotes code reusability and maintainability by enforcing a structure for related classes. 
+
+Example: 
+// Abstract class
+abstract class Animal {
+    // Abstract method (no body)
+    public abstract void animalSound();
+
+    // Concrete method
+    public void sleep() {
+        System.out.println("Zzz");
+    }
+}
+
+// Concrete subclass
+class Pig extends Animal {
+    // Implementation of the abstract method
+    public void animalSound() {
+        System.out.println("The pig says: wee wee");
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Pig myPig = new Pig(); // Create a Pig object
+        myPig.animalSound();
+        myPig.sleep();
+    }
+}
+
+AI responses may include mistakes.
+
+[1] https://medium.com/@YodgorbekKomilo/abstract-classes-in-java-a-comprehensive-guide-with-examples-2ec88ed0f80b[2] https://www.geeksforgeeks.org/java/abstraction-in-java-2/
 
 
 
