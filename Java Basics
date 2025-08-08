@@ -1,0 +1,318 @@
+Interface
+
+✅ Definition of Interface in Java (Interview Style)
+"An interface in Java is a reference type that defines a contract of methods that a class must implement.
+It contains method signatures without implementations, and any class that implements the interface agrees to provide concrete behavior for those methods."
+
+Or
+
+🧾 Easy Definition of Interface
+"An interface in Java is like a blueprint for a class. It tells what methods a class should have, but not how those methods work.
+Any class that uses the interface must write the actual code for those methods."
+
+🎯 Why Use Interfaces?
+Helps in writing flexible and clean code.
+Makes it easy to change or add new features.
+Useful when different classes need to do similar things in their own way.
+WebDriver Interface - RemoteWebDriver is fullyImplemented class extended by ChromeDriver, EdgeDriver class etc.
+
+🔍 Key Points to Emphasize
+No Method Bodies (Until Java 8+):
+
+Traditionally, interfaces only had abstract methods.
+Since Java 8, interfaces can have:
+Default methods (with implementation)
+Static methods
+Private methods (Java 9+)
+
+
+Multiple Inheritance:
+Java doesn’t support multiple inheritance with classes, but a class can implement multiple interfaces, allowing flexible design.
+
+
+Variables in Interfaces:
+All variables are implicitly public static final — they act as constants.
+
+Use Case:
+Interfaces are ideal for defining capabilities or roles.
+
+Polymorphism:
+Interfaces enable polymorphic behavior. You can write code that works on the interface type, not the concrete class.
+
+Interface - 
+Defined as an abstract type.
+Used to specify  or blueprint of a class
+Contains static constants and abstract methods
+The interface in Java is a mechanism to achieve abstraction.
+
+
+Case 1 By default, variables in an interface are public, static and final.
+
+In Java, when you declare variables in an **interface**, they are implicitly i.e, whether defined or not
+
+- public – accessible from anywhere.
+- static – belong to the interface itself, not to instances of classes that implement the interface.
+- final – cannot be changed once assigned.
+
+Here’s **why** this is the case:
+
+1. **Interfaces define a contract, not behavior**
+Interfaces are meant to define **what** a class should do, not **how** it does it. 
+So, variables in interfaces are typically **constants** that help define shared values across implementations.
+
+Example:
+```java
+interface Vehicle {
+    int MAX_SPEED = 120; // implicitly public static final
+}
+```
+This constant can be used by any class that implements `Vehicle`, but it can't be changed.
+
+---
+
+2. **Why `static`?**
+Since interfaces can't have instance variables (they don't have constructors or state), any variable must belong to the interface itself. 
+That’s why they are `static`.
+
+### 3. **Why `final`?**
+To ensure consistency across all implementations.
+If a variable could be changed, it would break the idea of a shared constant.
+
+### 4. **Why `public`?**
+Interfaces are meant to be implemented by other classes, often in different packages. 
+Making variables `public` ensures they are accessible wherever the interface is used.
+
+### Summary:
+Variables in interfaces are **constants** that define shared, unchangeable values.
+Making them `public static final` by default enforces this design principle.
+
+
+
+
+abstract methods in Interface
+
+In Java, when you declare **abstract methods in an interface**, you **don’t need to specify any access modifiers**—they are automatically:
+
+- **`public`**
+- **`abstract`**
+
+You **cannot use** other access modifiers like `private`, `protected`, or package-private (no modifier) for interface methods.
+
+---
+
+### ✅ **Allowed Modifier: `public`**
+
+All interface methods are **implicitly public and abstract**, even if you don’t write those keywords.
+
+```java
+interface Animal {
+    void makeSound(); // treated as public abstract
+}
+```
+
+This is the same as writing:
+
+```java
+interface Animal {
+    public abstract void makeSound();
+}
+```
+
+---
+
+### ❌ **Not Allowed Modifiers**
+
+These will cause **compile-time errors**:
+
+```java
+interface Animal {
+    private void makeSound();   // ❌ Error
+    protected void makeSound(); // ❌ Error
+    void makeSound();           // ✅ OK (implicitly public abstract)
+}
+```
+
+---
+
+### 🧠 Why Only `public`?
+
+Because interfaces are meant to define a **contract** that other classes must follow. 
+That contract must be **visible** to the implementing classes, which is why the methods must be `public`.
+
+---
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+Great follow-up! Let's compare how **variables in interfaces** differ from those in **abstract classes** in Java:
+
+---
+
+### 🔹 **1. Interface Variables**
+- **Implicit Modifiers**: `public static final`
+- **Meaning**: They are **constants**—shared, unchangeable values accessible globally.
+- **Initialization**: Must be initialized at the point of declaration.
+- **Example**:
+  ```java
+  interface Shape {
+      int SIDES = 4; // public static final by default
+  }
+  ```
+
+---
+
+### 🔸 **2. Abstract Class Variables**
+- **Modifiers**: Can be `private`, `protected`, `public`, `static`, `final`, or none.
+- **Meaning**: Abstract classes can have **instance variables** (state), just like regular classes.
+- **Initialization**: Can be initialized in constructors or directly.
+- **Example**:
+  ```java
+  abstract class Shape {
+      protected int sides; // instance variable
+      public static final int MAX_SIDES = 10; // constant
+  }
+  ```
+
+---
+
+### ✅ **Key Differences**
+
+| Feature                  | Interface                          | Abstract Class                     |
+|--------------------------|------------------------------------|------------------------------------|
+| Variable Type            | Only constants                     | Constants and instance variables   |
+| Modifiers Allowed        | Only `public static final`         | Any (`private`, `protected`, etc.) |
+| Initialization           | Must be initialized immediately    | Can be initialized later           |
+| Purpose                  | Define shared constants            | Define state and behavior          |
+
+---
+
+### 🧠 When to Use What?
+
+- Use **interface variables** when you want to define **constants** shared across multiple unrelated classes.
+- Use **abstract class variables** when you need to define **state** or **shared behavior** for a family of related classes.
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+
+Abstract class in java
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
