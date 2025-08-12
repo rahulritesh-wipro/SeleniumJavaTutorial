@@ -1,0 +1,57 @@
+package org.openqa.selenium
+
+Interface SearchContext ---------WebDriver
+                        ----------WebElement 
+
+SearchContext Interface has two abstract methods
+
+return              method signature             method summary
+
+WebElement          findElement(By by)           Find the first WebElement using the given method.
+List<WebElement>    findElements(By by)          Find all elements within the current context using the given mechanism.
+
+
+Method Details : 
+-------------------------------------------------------------------------------------------------
+findElements 
+
+List<WebElement> findElements(By by)
+
+Find all elements within the current context using the given mechanism.
+
+Parameters:
+by - The locating mechanism to use
+Returns:
+A list of all WebElements, or an empty list if nothing matches
+See Also:
+By
+
+---------------------------------------------------------------------------------------------------
+
+findElement 
+
+WebElement findElement(By by)
+
+Find the first WebElement using the given method.
+
+Parameters:
+by - The locating mechanism
+
+Returns:
+The first matching element on the current context
+Throws:
+NoSuchElementException - If no matching elements are found
+
+------------------------------------------------------------------------------------------------------
+
+Package org.openqa.selenium
+Interface WebDriver
+All Superinterfaces:
+SearchContext
+
+@NullMarked
+public interface WebDriver extends SearchContext
+
+
+
+
