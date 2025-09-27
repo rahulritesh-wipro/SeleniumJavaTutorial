@@ -1,4 +1,8 @@
 Actions API
+
+The Actions class in Selenium WebDriver is a crucial component for handling advanced user interactions that go beyond simple clicks and text inputs. It is part of Selenium's Advanced User Interactions API and allows for simulating complex keyboard and mouse events.
+
+
 ref- https://www.selenium.dev/documentation/webdriver/actions_api/ 
 The Actions API in Selenium provides granular control over virtualized input devices (keyboard, mouse, pen, touch, scroll wheel) to simulate complex user interactions. 
 
