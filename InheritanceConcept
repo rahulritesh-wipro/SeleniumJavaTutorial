@@ -19,6 +19,20 @@ To inherit a class, you simply incorporate the definition of one class
 into another by using the "extends" keyword.
 
 example-
+The following program creates a super class called A and a sub-class B
+Notice the "extends" keyword used to create a sub-class of A.
+
+// simple example of inheritance
+// create a super class
+public class A {
+    int i,j;
+
+    void showij(){
+        
+  }
+
+
+}
 
 
 
