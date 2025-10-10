@@ -1,0 +1,25 @@
+Inheritance - IS - A - Relationship
+
+A pillar of Object oriented programming as it allows the creation of 
+hierarchical classifications.
+
+How and when to achieve Inheritance:-
+You can create a general class that defines the traits commom to a set of related items. - Parent class/ super class
+
+This class will then be inherited by other, more specific classes. these 
+specific classes add those things that are unique to it. - child class / 
+sub class
+
+Note - In java terminology, a class that is inherited is called super class.
+The class that does the inheriting is called a sub class.
+Hence, a sub-class is a specialized version of a super class.
+A sub-class inherits all of the members defined by the super-class and add its own unique elements.
+
+To inherit a class, you simply incorporate the definition of one class
+into another by using the "extends" keyword.
+
+example-
+
+
+
+
